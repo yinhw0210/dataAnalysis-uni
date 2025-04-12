@@ -1,0 +1,20 @@
+/*  #ifdef  H5  */
+@import 'tailwindcss';
+/*  #endif  */
+/*  #ifndef  H5  */
+@import 'weapp-tailwindcss';
+/*  #endif  */
+
+.button-text{
+    color: #000;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: 28rpx;
+    line-height: normal;
+}
+
+.button-text:after{
+    display: none;
+}
