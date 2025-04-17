@@ -58,7 +58,7 @@ const onHandleCopyLink = (item: string) => {
     <VideoPlayer :src="data?.video" :poster="data?.image_list[0]" />
   </template>
   <template v-else>
-    <div class="px-[28rpx] mb-[20rpx]" v-if="data?.live_list.length > 1">
+    <div class="px-[28rpx] mb-[20rpx]" v-if="data?.live_list?.length > 1">
       <wd-radio-group v-model="imageType" shape="button">
         <wd-radio :value="ImageType.ORIGINAL">图片</wd-radio>
         <wd-radio :value="ImageType.LIVE">live图</wd-radio>

@@ -33,11 +33,22 @@ const { data, run } = useRequest(
     manual: true,
     onSuccess: (res) => {
       console.log(JSON.stringify(res));
+      uni.hideLoading();
     },
+    onError: (err) => {
+      uni.hideLoading();
+      uni.showToast({
+        title: "解析失败，请联系客服",
+        icon: "none",
+      });
+    }
   }
 );
 
 const onHandleAnalyze = async () => {
+  uni.showLoading({
+    title: "解析中...",
+  });
   run();
 };
 </script>

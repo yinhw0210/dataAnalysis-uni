@@ -8,8 +8,6 @@ interface IProps {
   controls?: boolean;
 }
 
-const toast = useToast();
-
 const props = withDefaults(defineProps<IProps>(), {
   height: "450rpx",
   controls: true,
@@ -22,21 +20,18 @@ const onHandleDownload = () => {
   uni.downloadFile({
     url: props.src,
     success: (res) => {
-      uni.saveImageToPhotosAlbum({
+      uni.saveVideoToPhotosAlbum({
         filePath: res.tempFilePath,
         success: (res) => {
           uni.hideLoading();
-          toast.success("下载成功");
         },
         fail: (err) => {
           uni.hideLoading();
-          toast.error("下载失败");
         },
       });
     },
     fail: (err) => {
       uni.hideLoading();
-      toast.error("下载失败");
     },
   });
 };
