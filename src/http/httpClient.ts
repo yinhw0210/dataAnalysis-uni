@@ -13,82 +13,18 @@ export default class ApiClient {
       uni.request({
         ...options,
         success: async (res: any) => {
-          /* -------- 请求成功 ----------- */
           if (
-            (res.statusCode >= 200 && res.statusCode < 300) ||
-            res.data.code === 0
+            res.data.code === 200
           ) {
             return resolve(res.data?.data as T);
           }
-
-          /* -------- 无感刷新 token ----------- */
-          const userStore = useUserStore();
-          const token = userStore.token;
-          // token 失效的，且有刷新 token 的，才放到请求队列里
-          if ((res.data.code == 401 || res.statusCode == 401) && token != "") {
-            taskQueue.push(() => {
-              resolve(this.http<T>(options));
-            });
-          }
-
-          if (
-            (res.data.code == 401 || res.statusCode == 401) &&
-            token != "" &&
-            !refreshing
-          ) {
-            // refreshing = true
-            // // 发起刷新 token 请求
-            // const [refreshTokenRes, refreshTokenErr] = await refreshTokenApi()
-            // refreshing = false
-            // // 刷新 token 成功，将任务队列的所有任务重新请求
-            // if (refreshTokenRes?.data.code == 200) {
-            //   nextTick(() => {
-            //     // 关闭其他弹窗
-            //     uni.hideToast()
-            //     // 刷新 token 失败，跳转到登录页
-            //     uni.showToast({
-            //       title: 'token 刷新成功，重载中',
-            //       icon: 'none'
-            //     })
-            //   })
-            //   taskQueue.forEach(event => {
-            //     event()
-            //   })
-            // }
-            // if (refreshTokenErr) {
-            //   // 刷新 token 失败，跳转到登录页
-            //   nextTick(() => {
-            //     // 关闭其他弹窗
-            //     uni.hideToast()
-            //     // 刷新 token 失败，跳转到登录页
-            //     uni.showToast({
-            //       title: '登录已过期，请重新登录',
-            //       icon: 'none'
-            //     })
-            //   })
-            // setTimeout(() => {
-            //   // 清除 用户信息（包括 token）
-            //   store.clearUserInfo()
-            //   // 跳转到登录页
-            //   uni.navigateTo({ url: '/pages/login/login' })
-            // }, 2500)
-          }
-          // 不管刷新 token 成功与否，都清空任务队列
-          taskQueue = [];
-          // }
-
-          /* -------- 剩余情况都默认请求异常 ----------- */
-          uni.showToast({
-            title: res.data.msg || res.data.message || "请求异常",
-            icon: "none",
-          });
-          reject(res);
+          reject(res.data.msg || res.data.message || "请求异常，请联系客服");
         },
         fail: (err) => {
           if (err.errMsg === "request:fail abort") {
             console.log(`请求 ${options.url} 被取消`);
           } else {
-            reject(err);
+            reject("请求异常，请联系客服");
           }
         },
       });

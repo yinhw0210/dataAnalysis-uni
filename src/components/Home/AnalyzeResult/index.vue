@@ -50,7 +50,7 @@ const onHandleCopyLink = (item: string) => {
 </script>
 <template>
   <template>
-    <div class="text-[32rpx] font-bold mb-[20rpx] px-[28rpx]">
+    <div class="text-[32rpx] font-bold my-[20rpx] px-[28rpx]">
       {{ data.title }}
     </div>
   </template>

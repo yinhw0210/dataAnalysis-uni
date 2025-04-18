@@ -11,6 +11,7 @@ import { computed, ref } from "vue";
 import useRequest from "@/hooks/useRequest";
 import AnalyzeResult from "@/components/Home/AnalyzeResult/index.vue";
 import analyzeService from "@/services/analyzeService";
+import { useUserStore } from "@/store/modules/user";
 const value = ref("");
 const statusBarHeight = computed(() => {
   return uni.getSystemInfoSync().statusBarHeight ?? 0;
@@ -32,16 +33,15 @@ const { data, run } = useRequest(
   {
     manual: true,
     onSuccess: (res) => {
-      console.log(JSON.stringify(res));
       uni.hideLoading();
     },
     onError: (err) => {
       uni.hideLoading();
       uni.showToast({
-        title: "解析失败，请联系客服",
+        title: err as unknown as string,
         icon: "none",
       });
-    }
+    },
   }
 );
 
@@ -70,7 +70,7 @@ const onHandleAnalyze = async () => {
       }"
     >
       <div
-        class="w-[90%] h-[250rpx] z-[20] absolute rounded-[16rpx] flex flex-col justify-around items-center shadow-[0px_4rpx_15rpx_0px_rgba(46,45,116,0.065)] bg-[#fff]"
+        class="w-[90%] h-[300rpx] z-[20] absolute rounded-[16rpx] flex flex-col pt-[36rpx] items-center shadow-[0px_4rpx_15rpx_0px_rgba(46,45,116,0.065)] bg-[#fff]"
         :style="{
           top: `${navBarHeight + statusBarHeight + 50}px`,
           left: `5%`,
@@ -84,10 +84,39 @@ const onHandleAnalyze = async () => {
           placeholder="请输入链接"
         />
         <div
-          class="w-[50%] h-[80rpx] bg-[#3250ff] text-[#fff] text-[32rpx] font-bold rounded-[20rpx] flex justify-center items-center"
+          class="w-[50%] h-[80rpx] bg-[#3250ff] text-[#fff] text-[32rpx] font-bold rounded-[20rpx] flex justify-center items-center mt-[28rpx]"
+          :style="{
+            opacity: value ? 1 : 0.5,
+            pointerEvents: value ? 'auto' : 'none',
+          }"
           @click="onHandleAnalyze"
         >
           开始解析
+        </div>
+        <div class="flex items-center gap-[4rpx] mt-[12rpx]">
+          <div class="text-[24rpx] text-[#999]">支持平台:</div>
+          <div class="text-[24rpx] text-[#999] flex items-center gap-[6rpx]">
+            <img
+              src="https://cdn.simpleicons.org/xiaohongshu/white"
+              class="w-[42rpx] h-[42rpx] bg-[red] rounded-[12rpx] p-[2rpx]"
+              alt=""
+            />
+            <img
+              src="https://cdn.simpleicons.org/sinaweibo/red"
+              class="w-[42rpx] h-[42rpx] bg-[white] rounded-[12rpx] p-[2rpx]"
+              alt=""
+            />
+            <img
+              src="https://cdn.simpleicons.org/tiktok/white"
+              class="w-[42rpx] h-[42rpx] bg-[black] rounded-[12rpx] p-[2rpx]"
+              alt=""
+            />
+            <img
+              src="https://cdn.simpleicons.org/kuaishou/white"
+              class="w-[42rpx] h-[42rpx] bg-[#fe4905] rounded-[12rpx] p-[2rpx]"
+              alt=""
+            />
+          </div>
         </div>
       </div>
       <div
@@ -112,7 +141,7 @@ const onHandleAnalyze = async () => {
   :deep(.input-box) {
     width: 600rpx;
     height: 80rpx;
-    border-radius: 50rpx;
+    border-radius: 24rpx;
     border: 1rpx solid #e5e5e5;
     padding: 0 20rpx;
     .wd-input__body {
