@@ -11,7 +11,8 @@ import { computed, ref } from "vue";
 import useRequest from "@/hooks/useRequest";
 import AnalyzeResult from "@/components/Home/AnalyzeResult/index.vue";
 import analyzeService from "@/services/analyzeService";
-import { useUserStore } from "@/store/modules/user";
+import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
+
 const value = ref("");
 const statusBarHeight = computed(() => {
   return uni.getSystemInfoSync().statusBarHeight ?? 0;
@@ -51,6 +52,23 @@ const onHandleAnalyze = async () => {
   });
   run();
 };
+
+onShareAppMessage(() => {
+  return {
+    title: "免费去水印，多平台短视频、图片一键去水印。",
+    path: "/pages/home/index",
+    imageUrl: "https://img.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
+  };
+});
+
+onShareTimeline(() => { 
+  return {
+    title: "免费去水印，多平台短视频、图片一键去水印。",
+    path: "/pages/home/index",
+    imageUrl: "https://img.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
+  };
+})
+
 </script>
 <template>
   <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
