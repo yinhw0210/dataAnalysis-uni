@@ -10,8 +10,15 @@ const copyGitHub = () => {
 };
 </script>
 <template>
-  <div class="size-full py-[32rpx]">
-    <wd-collapse v-model="value">
+  <div class="h-[1000rpx] py-[32rpx] grid grid-cols-4 gap-[12rpx]">
+    <div v-for="item in 4" :key="item" class="overflow-hidden">
+      <image
+        src="https://img.picui.cn/free/2025/04/20/6804aef998196.png"
+        mode="heightFix"
+        class="!h-full"
+      />
+    </div>
+    <!-- <wd-collapse v-model="value">
       <wd-collapse-item title="为什么链接解析不成功？" name="item1">
         <p>1、此视频已被隐藏或下架、无法解析</p>
         <p>2、链接必须是新的，不然解析会失败</p>
@@ -40,6 +47,6 @@ const copyGitHub = () => {
     </wd-collapse>
     <div class="flex justify-center mt-[32rpx]">
       <wd-button type="primary" @click="copyGitHub">复制GitHub地址</wd-button>
-    </div>
+    </div> -->
   </div>
 </template>

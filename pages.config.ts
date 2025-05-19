@@ -12,6 +12,7 @@ export default defineUniPages({
     backgroundColor: '#f5f5f5'
   },
   tabBar: {
+    custom: true,
     list: [
       {
         pagePath: 'pages/home/index',

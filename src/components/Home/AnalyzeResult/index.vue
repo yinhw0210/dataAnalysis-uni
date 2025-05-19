@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import { useToast } from "wot-design-uni";
+import { computed, ref } from "vue";
 import VideoPlayer from "@/components/VideoPlayer/index.vue";
-const toast = useToast();
 
 enum ImageType {
   ORIGINAL = "original",
   LIVE = "live",
 }
+
+const toast = useToast();
 
 const props = defineProps<{
   data: API.Analyze.AnalyzeResult;
@@ -24,7 +25,7 @@ const onHandleDownload = (item: string) => {
     title: "初始化资源...",
   });
   uni.downloadFile({
-    url: item,
+    url: `https://www.solitude.top/download.php?url=${item}`,
     success: (res) => {
       uni.saveImageToPhotosAlbum({
         filePath: res.tempFilePath,
@@ -32,11 +33,13 @@ const onHandleDownload = (item: string) => {
           uni.hideLoading();
         },
         fail: (err) => {
+          toast.show("不支持的下载类型，请复制链接到浏览器下载。")
           uni.hideLoading();
         },
       });
     },
     fail: (err) => {
+      toast.show("不支持的下载类型，请复制链接到浏览器下载。")
       uni.hideLoading();
     },
   });

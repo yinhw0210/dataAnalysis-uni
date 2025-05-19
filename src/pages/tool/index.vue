@@ -1,17 +1,190 @@
-<route lang="json5" type="tool">
+<route lang="json5" type="home">
 {
   layout: "main",
   style: {
-    navigationBarTitleText: "工具",
+    navigationStyle: "custom",
   },
 }
 </route>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from "vue";
+import { usePuzzleStore } from "@/store/modules/puzzle";
+import { nanoid } from "nanoid/non-secure";
+const puzzleStore = usePuzzleStore();
+
+const info = [
+  {
+    label: "排版拼图",
+    icon: "https://free4.yunpng.top/2025/04/22/68074a741c71e.png",
+    desc: "多张图片一键合成任意模板",
+    key: "1",
+    iconColor: "#72b8f9",
+    path: "puzzle",
+  },
+  {
+    label: "切分九宫格",
+    icon: "https://free4.yunpng.top/2025/04/22/68074a740e402.png",
+    desc: "一张图片分割多张",
+    key: "2",
+    iconColor: "#7fd6fb",
+  },
+  {
+    label: "拼长图",
+    icon: "https://free4.yunpng.top/2025/04/22/68074a75875e0.png",
+    desc: "多张图片合成一张长图",
+    key: "3",
+    iconColor: "#8378f7",
+  },
+  {
+    label: "图片相框",
+    icon: "https://free4.yunpng.top/2025/04/22/68074a75a6c68.png",
+    desc: "给图片加相框",
+    key: "4",
+    iconColor: "#396be5",
+  },
+];
+const statusBarHeight = computed(() => {
+  return uni.getSystemInfoSync().statusBarHeight ?? 0;
+});
+
+const navBarHeight = computed(() => {
+  const menuButtonInfo = uni.getMenuButtonBoundingClientRect();
+  return (
+    menuButtonInfo.height + (menuButtonInfo.top - statusBarHeight.value) * 2
+  );
+});
+
+const handleClick = (item: any) => {
+  uni.chooseMedia({
+  count: 9,
+  mediaType: ['image'],
+  sourceType: ['album'],
+  success: async (res) => {
+    const mediaInfoList = [];
+    const promiseList = res.tempFiles.map((item) => {
+      return new Promise((resolve) => {
+        uni.getImageInfo({
+          src: item.tempFilePath,
+          success: (imageRes) => {
+            resolve({
+              id: nanoid(),
+              url: item.tempFilePath,
+              width: imageRes.width,
+              height: imageRes.height,
+            });
+          },
+          fail: (err) => {
+            console.error('获取图片信息失败:', err);
+            resolve({
+              id: nanoid(),
+              url: item.tempFilePath,
+              width: 0,
+              height: 0,
+            });
+          },
+        });
+      });
+    });
+
+    try {
+      mediaInfoList.push(...(await Promise.all(promiseList)));
+      // 确保图像信息已获取完毕后再进行后续操作
+      puzzleStore.setImageList(mediaInfoList);
+      // 如果需要进行页面跳转，可以在这里进行
+      // 但要确保跳转的 URL 是合法的
+      // 其中 "item.path" 需要替换为实际的页面路径
+      uni.navigateTo({ url: `/pages/puzzle/${item.path}` });
+    } catch (error) {
+      console.error('处理图片信息时出错:', error);
+    }
+  },
+  fail: (err) => {
+    console.error('选择媒体失败:', err);
+  },
+});
+};
+</script>
 <template>
-  <div class="size-full">
-    <image
-      src="https://img.picui.cn/free/2025/04/11/67f8dab4dc01a.webp"
-      class="size-full"
-    ></image>
+  <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
+    <div
+      class="flex items-center px-[16rpx] text-[#fff] text-[32rpx] font-bold sticky top-0 z-10"
+      :style="{
+        height: `${navBarHeight}px`,
+        top: `${statusBarHeight}px`,
+      }"
+    ></div>
+    <div
+      class="absolute inset-0 top-[380rpx] flex flex-col gap-[40rpx] p-[32rpx] pt-[48rpx] items-center bg-[#fff] rounded-[28rpx_28rpx_0_0]"
+    >
+      <div
+        class="item"
+        :data-key="item.key"
+        v-for="item in info"
+        :key="item.key"
+        @click="handleClick(item)"
+      >
+        <div class="item_icon">
+          <image :src="item.icon" alt="" />
+        </div>
+        <div class="h-full flex flex-col justify-between py-[6rpx]">
+          <div class="text-[24rpx] font-bold">{{ item.label }}</div>
+          <div class="text-[20rpx] text-[#999]">{{ item.desc }}</div>
+        </div>
+        <div class="absolute right-[24rpx] bottom-[50%] translate-y-[50%]">
+          <wd-icon
+            name="arrow-right"
+            size="22px"
+            :color="item.iconColor"
+          ></wd-icon>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+<style lang="scss" scoped>
+.home-container {
+  width: 100%;
+  height: 100%;
+  background: url(https://free4.yunpng.top/2025/04/22/68073f3b93dad.png)
+    no-repeat top center;
+  background-size: contain;
+  position: relative;
+  .item {
+    height: 128rpx;
+    width: 100%;
+    border-radius: 24rpx;
+    padding: 24rpx;
+    display: flex;
+    align-items: center;
+    gap: 24rpx;
+    position: relative;
+
+    &[data-key="1"] {
+      background: #e6f3fe;
+    }
+    &[data-key="2"] {
+      background: #e7f9fb;
+    }
+    &[data-key="3"] {
+      background: #edebfd;
+    }
+    &[data-key="4"] {
+      background: #e5edfd;
+    }
+
+    .item_icon {
+      background: #fff;
+      border-radius: 12rpx;
+      width: 80rpx;
+      height: 80rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      image {
+        width: 50rpx;
+        height: 50rpx;
+      }
+    }
+  }
+}
+</style>

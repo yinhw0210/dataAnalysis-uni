@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { useToast } from "wot-design-uni";
+import { useToast } from 'wot-design-uni';
+
+const toast = useToast();
 
 interface IProps {
   src: string;
@@ -18,7 +20,7 @@ const onHandleDownload = () => {
     title: "初始化资源...",
   });
   uni.downloadFile({
-    url: props.src,
+    url: `https://www.solitude.top/download.php?url=${props.src}`,
     success: (res) => {
       uni.saveVideoToPhotosAlbum({
         filePath: res.tempFilePath,
@@ -26,11 +28,13 @@ const onHandleDownload = () => {
           uni.hideLoading();
         },
         fail: (err) => {
+          toast.show("不支持的下载类型，请复制链接到浏览器下载。")
           uni.hideLoading();
         },
       });
     },
     fail: (err) => {
+      toast.show("不支持的下载类型，请复制链接到浏览器下载。")
       uni.hideLoading();
     },
   });

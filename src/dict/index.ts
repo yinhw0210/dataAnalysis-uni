@@ -1,12 +1,13 @@
 import _ from 'lodash'
 import userDict from './components/user'
-
+import puzzleDict from './components/puzzle'
 interface DictOptions {
   [key: string]: string
 }
 
 export const dictInfo = {
   ...userDict,
+  ...puzzleDict,
 }
 
 /**
