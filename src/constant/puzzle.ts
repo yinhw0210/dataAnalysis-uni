@@ -11,6 +11,48 @@ export interface IPuzzleInfo {
     }[],
 }
 
+export const PUZZLE_OPTIONS_LIST = [
+    {
+        key: '1',
+        label: '滤镜',
+        hide: true,
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f17c5619.png'
+    },
+    {
+        key: '2',
+        label: '替换',
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f17909ef.png'
+    },
+    {
+        key: '3',
+        label: '编辑',
+        scale: 0.88,
+        hide: true,
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f17b056d.png'
+    },
+    {
+        key: '4',
+        label: '旋转90°',
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f1789c02.png'
+    },
+    {
+        key: '5',
+        label: '水平翻转',
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f1a75aec.png'
+    },
+    {
+        key: '6',
+        label: '垂直翻转',
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f1a4bf29.png'
+    },
+    {
+        key: '7',
+        label: '透明度',
+        scale: 0.88,
+        icon: 'https://img.picui.cn/free/2025/05/21/682d6f179a551.png'
+    },
+]
+
 export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
     [PuzzleNumEnum.ONE]: {
         key: PuzzleNumEnum.ONE,

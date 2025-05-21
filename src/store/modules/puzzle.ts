@@ -1,11 +1,17 @@
 import { defineStore } from "pinia"
 
-interface PuzzleStateType {
+export interface PuzzleStateType {
   imageList: {
     id: string;
     url: string;
     width: number;
     height: number;
+    offsetX: number;
+    offsetY: number;
+    rotate: number;
+    scaleX: number;
+    scaleY: number;
+    opacity: number;
   }[];
 }
 
@@ -17,7 +23,7 @@ export const usePuzzleStore = defineStore("puzzle", {
         getImageList: (state) => state.imageList,
     },
     actions: {
-        setImageList(imageList: { id: string; url: string; width: number; height: number }[]) {
+        setImageList(imageList: PuzzleStateType["imageList"]) {
             this.imageList = imageList;
         },
         clearImageList() {

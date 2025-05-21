@@ -11,6 +11,9 @@ import { computed } from "vue";
 import { usePuzzleStore } from "@/store/modules/puzzle";
 import { nanoid } from "nanoid/non-secure";
 const puzzleStore = usePuzzleStore();
+import { useToast } from 'wot-design-uni';
+
+const toast = useToast();
 
 const info = [
   {
@@ -71,6 +74,10 @@ const handleClick = (item: any) => {
               url: item.tempFilePath,
               width: imageRes.width,
               height: imageRes.height,
+              rotate: 0,
+              scaleX: 1,
+              scaleY: 1,
+              opacity: 1,
             });
           },
           fail: (err) => {
@@ -80,6 +87,10 @@ const handleClick = (item: any) => {
               url: item.tempFilePath,
               width: 0,
               height: 0,
+              rotate: 0,
+              scaleX: 1,
+              scaleY: 1,
+              opacity: 1,
             });
           },
         });
@@ -139,13 +150,14 @@ const handleClick = (item: any) => {
         </div>
       </div>
     </div>
+    <wd-toast />
   </div>
 </template>
 <style lang="scss" scoped>
 .home-container {
   width: 100%;
   height: 100%;
-  background: url(https://free4.yunpng.top/2025/04/22/68073f3b93dad.png)
+  background: url(https://img.picui.cn/free/2025/05/19/682af2cb250dd.png)
     no-repeat top center;
   background-size: contain;
   position: relative;
