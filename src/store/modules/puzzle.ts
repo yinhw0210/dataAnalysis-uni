@@ -12,6 +12,13 @@ export interface PuzzleStateType {
     scaleX: number;
     scaleY: number;
     opacity: number;
+    scale: number;
+    // 高级配置
+    advancedConfig: {
+      frame: number;
+      innerFrame: number;
+      borderRadius: number;
+    };
   }[];
 }
 

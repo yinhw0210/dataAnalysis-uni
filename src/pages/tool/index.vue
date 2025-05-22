@@ -78,6 +78,7 @@ const handleClick = (item: any) => {
               scaleX: 1,
               scaleY: 1,
               opacity: 1,
+              scale: 1,
             });
           },
           fail: (err) => {
@@ -91,6 +92,7 @@ const handleClick = (item: any) => {
               scaleX: 1,
               scaleY: 1,
               opacity: 1,
+              scale: 1,
             });
           },
         });

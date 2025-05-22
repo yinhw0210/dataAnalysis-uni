@@ -3,6 +3,7 @@ import {
   IPuzzleInfo,
   PUZZLE_INFO,
   PUZZLE_OPTIONS_LIST,
+  PUZZLE_ADVANCED_EDIT_OPTIONS_LIST,
 } from "@/constant/puzzle";
 import { dictInfo } from "@/dict/index";
 import { computed, onMounted, ref } from "vue";
@@ -31,8 +32,23 @@ const isConfigExpand = ref<boolean>(false);
 // 透明度展开
 const isOpacityExpand = ref<boolean>(false);
 
+// 高级编辑展开收起
+const isAdvancedEditExpand = ref<boolean>(false);
+
+// 相框编辑展开收起
+const isFrameEditExpand = ref<boolean>(false);
+
 // 透明度值
 const opacityValue = ref<number>(100);
+
+// 外框值
+const frameValue = ref<number>(0);
+
+// 圆角值
+const borderRadiusValue = ref<number>(0);
+
+// 内框值
+const innerFrameValue = ref<number>(0);
 
 // 元素实例
 const puzzleContainer = ref<HTMLElement>(null);
@@ -106,6 +122,9 @@ const handleSelectImage = (cIndex: number) => {
   selectImageIndex.value = cIndex;
   isConfigExpand.value = true;
   isExpand.value = false;
+  if (isOpacityExpand.value) {
+    opacityValue.value = selectImageList.value[cIndex].opacity * 100;
+  }
 };
 
 // 检查触摸点是否在元素内
@@ -280,6 +299,22 @@ const onHandleOpacityExpand = () => {
   isConfigExpand.value = true;
 };
 
+const onHandleAdvancedEditExpand = () => {
+  if (isAdvancedEditExpand.value) {
+    isAdvancedEditExpand.value = false;
+    isExpand.value = true;
+  } else {
+    isAdvancedEditExpand.value = true;
+    isExpand.value = false;
+    isConfigExpand.value = false;
+    isOpacityExpand.value = false;
+  }
+};
+
+const onHandleFrameEditExpand = () => {
+  isFrameEditExpand.value = !isFrameEditExpand.value;
+};
+
 const handleOpacityDragMove = (info: { value: number }) => {
   const currentItem = selectImageList.value[selectImageIndex.value];
   currentItem.opacity = info.value / 100;
@@ -343,20 +378,12 @@ const handleRotateImage = (key: string) => {
 
 const handleHorizontalFlipImage = (key: string) => {
   const currentItem = selectImageList.value[selectImageIndex.value];
-  if (currentItem.scaleX === 1) {
-    currentItem.scaleX = -1;
-  } else {
-    currentItem.scaleX = 1;
-  }
+  currentItem.scaleX = -currentItem.scaleX;
 };
 
 const handleVerticalFlipImage = (key: string) => {
   const currentItem = selectImageList.value[selectImageIndex.value];
-  if (currentItem.scaleY === 1) {
-    currentItem.scaleY = -1;
-  } else {
-    currentItem.scaleY = 1;
-  }
+  currentItem.scaleY = -currentItem.scaleY;
 };
 
 const handleOpacityImage = (key: string) => {
@@ -364,6 +391,16 @@ const handleOpacityImage = (key: string) => {
   opacityValue.value = (currentItem.opacity ?? 1) * 100;
   isOpacityExpand.value = true;
   isConfigExpand.value = false;
+};
+
+const handleZoomMagnifyImage = (key: string) => {
+  const currentItem = selectImageList.value[selectImageIndex.value];
+  currentItem.scale += 0.1;
+};
+
+const handleZoomLessenImage = (key: string) => {
+  const currentItem = selectImageList.value[selectImageIndex.value];
+  currentItem.scale -= 0.1;
 };
 
 const handlePuzzleOption = (key: string) => {
@@ -393,10 +430,29 @@ const handlePuzzleOption = (key: string) => {
     // 透明度
     handleOpacityImage(key);
   }
+  if (key === "8") {
+    // 放大
+    handleZoomMagnifyImage(key);
+  }
+  if (key === "9") {
+    // 缩小
+    handleZoomLessenImage(key);
+  }
+};
+
+const handleAdvancedEditOption = (key: string) => {
+  if (key === "1") {
+    // 相框
+    isFrameEditExpand.value = true;
+    isAdvancedEditExpand.value = false;
+  }
+  if (key === "2") {
+    // 文字
+  }
 };
 
 onMounted(() => {
-  selectImageList.value = puzzleStore.getImageList;
+  selectImageList.value = puzzleStore.getImageList
 });
 
 const handleSavePuzzle = () => {
@@ -446,7 +502,7 @@ const handleSavePuzzle = () => {
             });
             return;
           }
-          
+
           // 绘制每个子元素
           childRects.forEach((rect, index) => {
             const item = selectImageList.value[index];
@@ -475,14 +531,14 @@ const handleSavePuzzle = () => {
               // 计算图片的偏移量（按比例缩放）
               const offsetXScaled = (item.offsetX || 0) * scaleX;
               const offsetYScaled = (item.offsetY || 0) * scaleY;
-              
+
               // 获取图片的显示模式
               const imageInfo = selectStylePuzzleInfo.value.children[index];
               const imageMode = getImageMode(item, imageInfo);
-              
+
               // 保存当前状态，绘制图片后恢复
               ctx.save();
-              
+
               // 创建裁剪区域（子元素的矩形区域）
               ctx.beginPath();
               ctx.rect(
@@ -492,13 +548,16 @@ const handleSavePuzzle = () => {
                 canvasItemHeight
               );
               ctx.clip();
-              
+
+              // 应用透明度
+              ctx.globalAlpha = item.opacity !== undefined ? item.opacity : 1;
+
               // 根据不同的图片显示模式计算绘制参数
               let drawX = canvasLeft + offsetXScaled;
               let drawY = canvasTop + offsetYScaled;
               let drawWidth = canvasItemWidth;
               let drawHeight = canvasItemHeight;
-              
+
               if (imageMode === "widthFix") {
                 // 宽度固定，高度自适应
                 drawWidth = canvasItemWidth;
@@ -521,7 +580,7 @@ const handleSavePuzzle = () => {
                 // 保持纵横比填充整个区域
                 const imgRatio = item.width / item.height;
                 const boxRatio = canvasItemWidth / canvasItemHeight;
-                
+
                 if (imgRatio > boxRatio) {
                   // 图片较宽，以高度为基准
                   drawHeight = canvasItemHeight;
@@ -536,16 +595,41 @@ const handleSavePuzzle = () => {
                   drawY += (canvasItemHeight - drawHeight) / 2;
                 }
               }
-              
-              // 绘制图片
-              ctx.drawImage(
-                item.url,
-                drawX,
-                drawY,
-                drawWidth,
-                drawHeight
-              );
-              
+
+              // 旋转和缩放处理
+              // 先进行额外的保存，以便仅对绘图操作应用变换
+              ctx.save();
+
+              // 计算变换的中心点：图片在画布上的实际中心
+              const centerX = drawX + drawWidth / 2;
+              const centerY = drawY + drawHeight / 2;
+
+              // 平移到中心点
+              ctx.translate(centerX, centerY);
+
+              // 应用旋转（如果有）
+              const rotateValue = item.rotate || 0;
+              ctx.rotate((rotateValue * Math.PI) / 180);
+
+              // 应用缩放（如果有）
+              const scaleXValue = item.scaleX !== undefined ? item.scaleX : 1;
+              const scaleYValue = item.scaleY !== undefined ? item.scaleY : 1;
+              const scaleValue = item.scale !== undefined ? item.scale : 1;
+
+              // 应用X轴、Y轴和整体的缩放
+              // 注意：整体scale会与x和y方向的缩放相乘
+              ctx.scale(scaleXValue * scaleValue, scaleYValue * scaleValue);
+
+              // 将坐标系移回去，使绘制位置相对于变换中心
+              ctx.translate(-drawWidth / 2, -drawHeight / 2);
+
+              // 以(0,0)为起点绘制图片，因为已经通过平移调整了坐标系
+              ctx.drawImage(item.url, 0, 0, drawWidth, drawHeight);
+
+              // 恢复变换前的状态
+              ctx.restore();
+
+              // 恢复裁剪区域前的状态
               ctx.restore();
             } else {
               // 如果没有图片，则显示ID文本
@@ -604,25 +688,28 @@ const handleSavePuzzle = () => {
     .exec();
 };
 
-
 const getImageStyle = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
   const standar = info[1];
-  const width = item.width;
-  const height = item.height;
+  const publicStyle = {
+    transform: `rotate(${item.rotate}deg) scaleX(${item.scaleX}) scaleY(${item.scaleY}) scale(${item.scale})`,
+  };
   if (standar === StandardPuzzleNum.WIDTH) {
     return {
       width: "100%!important",
+      ...publicStyle,
     };
   }
   if (standar === StandardPuzzleNum.HEIGHT) {
     return {
       height: "100%!important",
+      ...publicStyle,
     };
   }
   if (standar === StandardPuzzleNum.EQUAL) {
     return {
       width: "100%",
       height: "100%",
+      ...publicStyle,
     };
   }
 };
@@ -652,21 +739,26 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
         }"
       >
         <div
-          class="size-full grid gap-[12rpx] p-[12rpx]"
-          :style="selectStylePuzzleInfo?.style"
+          class="size-full grid"
+          :style="{
+            ...(selectStylePuzzleInfo?.style as any),
+            padding: `${frameValue}px`,
+            gap: `${innerFrameValue}px`,
+          }"
           id="puzzleContainer"
           ref="puzzleContainer"
         >
           <div
             v-for="(item, cIndex) in selectImageList"
             :key="cIndex"
-            class="bg-[#b2b2b2] box-border childItem overflow-hidden flex justify-center items-center"
+            class="bg-[white] box-border childItem overflow-hidden flex justify-center items-center"
             :id="`childItem_${cIndex}`"
             :style="{
               ...(selectStylePuzzleInfo?.children?.[cIndex] as any),
+              borderRadius: `${borderRadiusValue}px`,
             }"
             :class="{
-              'border-2 border-[#396be5]': selectImageIndex === cIndex,
+              'outline-[2px] outline-[#396be5]': selectImageIndex === cIndex,
               'border-2 border-[#ff9900] highlight-target':
                 highlightTargetIndex === cIndex,
               'dragging-element': isMoving && touchElementIndex === cIndex,
@@ -679,7 +771,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
             <div
               class="size-full"
               :style="{
-                transform: `translate(${item.offsetX}px, ${item.offsetY}px) rotate(${item.rotate}deg) scale(${item.scaleX}, ${item.scaleY})`,
+                transform: `translate(${item.offsetX}px, ${item.offsetY}px)`,
                 opacity: item.opacity,
               }"
             >
@@ -700,6 +792,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
         </div>
       </div>
     </div>
+    <!-- 编辑图片弹窗 -->
     <div
       class="w-full bg-[#fff] absolute bottom-0 left-0 rounded-t-[24rpx] flex flex-col"
       :style="{
@@ -718,6 +811,16 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
           size="22px"
           custom-style="transform: translateY(2px);"
         ></wd-icon>
+      </div>
+      <div
+        class="absolute top-[-80rpx] left-[20rpx] h-[50rpx] px-[16rpx] flex gap-[6rpx] items-center justify-center rounded-[25rpx] bg-[#fff]"
+        @click="onHandleAdvancedEditExpand"
+      >
+        <image
+          src="https://img.picui.cn/free/2025/05/21/682db2dceb5d6.png"
+          class="size-[24rpx]"
+        />
+        <div class="text-[24rpx]">高级编辑</div>
       </div>
       <div
         class="w-full h-[100rpx] px-[32rpx] py-[18rpx] border-b border-[#f2f2f2] overflow-hidden"
@@ -798,6 +901,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
         </div>
       </div>
     </div>
+    <!-- 编辑图片弹窗 -->
     <div
       class="absolute w-full bottom-0 left-0 rounded-t-[24rpx] bg-[#fff]"
       :style="{
@@ -846,6 +950,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
         </scroll-view>
       </div>
     </div>
+    <!-- 透明度弹窗 -->
     <div
       class="absolute w-full bottom-0 left-0 rounded-t-[24rpx] bg-[#fff]"
       :style="{
@@ -869,6 +974,101 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
       </div>
       <div class="px-[32rpx]">
         <wd-slider v-model="opacityValue" @dragmove="handleOpacityDragMove" />
+      </div>
+    </div>
+    <!-- 高级编辑弹窗 -->
+    <div
+      class="absolute w-full bottom-0 left-0 rounded-t-[24rpx] bg-[#fff]"
+      :style="{
+        height: isAdvancedEditExpand ? '250rpx' : '0',
+        transition: 'height 0.3s ease-in-out',
+      }"
+    >
+      <div
+        class="absolute top-[12rpx] right-[12rpx] size-[50rpx] flex flex-col z-[2]"
+        :class="{ 'rotate-180': !isAdvancedEditExpand }"
+        @click="onHandleAdvancedEditExpand"
+      >
+        <wd-icon
+          name="arrow-down"
+          size="22px"
+          custom-style="transform: translateY(2px);"
+        ></wd-icon>
+      </div>
+      <div class="w-full h-[80rpx] flex justify-center items-center">
+        高级编辑
+      </div>
+      <div class="px-[32rpx] mt-[18rpx]">
+        <scroll-view scroll-x="true" class="whitespace-nowrap">
+          <div
+            class="size-[100rpx] mr-[12rpx] inline-block"
+            v-for="item in PUZZLE_ADVANCED_EDIT_OPTIONS_LIST"
+            :key="item.key"
+            @click="handleAdvancedEditOption(item.key)"
+          >
+            <div
+              class="size-full flex flex-col items-center justify-center gap-[6rpx]"
+            >
+              <image :src="item.icon" class="size-[48rpx]" />
+              <div class="text-[24rpx]">{{ item.label }}</div>
+            </div>
+          </div>
+        </scroll-view>
+      </div>
+    </div>
+    <!-- 相框弹窗 -->
+    <div
+      class="absolute w-full bottom-0 left-0 rounded-t-[24rpx] bg-[#fff]"
+      :style="{
+        height: isFrameEditExpand ? '400rpx' : '0',
+        transition: 'height 0.3s ease-in-out',
+      }"
+    >
+      <div
+        class="absolute top-[12rpx] right-[12rpx] size-[50rpx] flex flex-col z-[2]"
+        :class="{ 'rotate-180': !isFrameEditExpand }"
+        @click="onHandleFrameEditExpand"
+      >
+        <wd-icon
+          name="arrow-down"
+          size="22px"
+          custom-style="transform: translateY(2px);"
+        ></wd-icon>
+      </div>
+      <div class="w-full h-[80rpx] flex justify-center items-center">
+        相框编辑
+      </div>
+      <div class="px-[32rpx] mt-[18rpx] flex flex-col gap-[16rpx]">
+        <div class="flex items-center justify-between gap-[46rpx]">
+          <div class="text-[24rpx]">外框</div>
+          <wd-slider
+            v-model="frameValue"
+            :hide-min-max="true"
+            :max="100"
+            :min="0"
+            custom-class="flex-1 !p-0 frameSlider"
+          />
+        </div>
+        <div class="flex items-center justify-between gap-[46rpx]">
+          <div class="text-[24rpx]">内框</div>
+          <wd-slider
+            v-model="innerFrameValue"
+            :hide-min-max="true"
+            :max="100"
+            :min="0"
+            custom-class="flex-1 !p-0 frameSlider"
+          />
+        </div>
+        <div class="flex items-center justify-between gap-[46rpx]">
+          <div class="text-[24rpx]">圆角</div>
+          <wd-slider
+            v-model="borderRadiusValue"
+            :hide-min-max="true"
+            :max="100"
+            :min="0"
+            custom-class="flex-1 !p-0 frameSlider"
+          />
+        </div>
       </div>
     </div>
     <canvas
@@ -898,5 +1098,18 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
   opacity: 0.75;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:deep(.frameSlider) {
+  .wd-slider__button-wrapper{
+    .wd-slider__button{
+      width: 28rpx!important;
+      height: 28rpx!important;
+    }
+    .wd-slider__label{
+      left: -8rpx!important;
+      bottom: 40rpx!important;
+    }
+  }
 }
 </style>

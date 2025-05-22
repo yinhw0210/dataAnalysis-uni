@@ -11,6 +11,18 @@ export interface IPuzzleInfo {
     }[],
 }
 
+export const PUZZLE_ADVANCED_EDIT_OPTIONS_LIST = [
+    {
+        key: '1',
+        label: '相框',
+        icon: 'https://img.picui.cn/free/2025/05/21/682db6d0efb8c.png'
+    },
+    {
+        key: '2',
+        label: '文字',
+        icon: 'https://img.picui.cn/free/2025/05/21/682db6d104980.png'
+    },
+]
 export const PUZZLE_OPTIONS_LIST = [
     {
         key: '1',
@@ -51,6 +63,16 @@ export const PUZZLE_OPTIONS_LIST = [
         scale: 0.88,
         icon: 'https://img.picui.cn/free/2025/05/21/682d6f179a551.png'
     },
+    {
+        key: '8',
+        label: '放大',
+        icon: 'https://img.picui.cn/free/2025/05/21/682d9dd588c25.png'
+    },
+    {
+        key: '9',
+        label: '缩小',
+        icon: 'https://img.picui.cn/free/2025/05/21/682d9dd59002b.png'
+    }
 ]
 
 export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
@@ -114,7 +136,7 @@ export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
             }, {
                 key: '4',
                 style: "grid-template-columns: 1fr 1fr;grid-template-rows: 1fr 1fr;",
-                children: [                                                                                                                        
+                children: [
                     ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
                     [undefined, StandardPuzzleNum.EQUAL],
                     [undefined, StandardPuzzleNum.EQUAL],
