@@ -455,6 +455,36 @@ onMounted(() => {
   selectImageList.value = puzzleStore.getImageList
 });
 
+// 添加绘制圆角矩形的辅助函数
+const drawRoundedRect = (
+  ctx: UniApp.CanvasContext,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number
+) => {
+  if (radius === 0) {
+    ctx.rect(x, y, width, height);
+    return;
+  }
+  
+  // 确保圆角半径不超过宽高的一半
+  const actualRadius = Math.min(radius, width / 2, height / 2);
+  
+  ctx.beginPath();
+  ctx.moveTo(x + actualRadius, y);
+  ctx.lineTo(x + width - actualRadius, y);
+  ctx.arcTo(x + width, y, x + width, y + actualRadius, actualRadius);
+  ctx.lineTo(x + width, y + height - actualRadius);
+  ctx.arcTo(x + width, y + height, x + width - actualRadius, y + height, actualRadius);
+  ctx.lineTo(x + actualRadius, y + height);
+  ctx.arcTo(x, y + height, x, y + height - actualRadius, actualRadius);
+  ctx.lineTo(x, y + actualRadius);
+  ctx.arcTo(x, y, x + actualRadius, y, actualRadius);
+  ctx.closePath();
+};
+
 const handleSavePuzzle = () => {
   uni
     .createSelectorQuery()
@@ -517,14 +547,22 @@ const handleSavePuzzle = () => {
             const canvasItemWidth = rect.width * scaleX;
             const canvasItemHeight = rect.height * scaleY;
 
-            // 绘制子元素背景
+            // 计算圆角半径（按比例缩放）
+            const borderRadius = borderRadiusValue.value * scaleX;
+
+            // 绘制子元素背景（带圆角）
             ctx.fillStyle = "#b2b2b2";
-            ctx.fillRect(
-              canvasLeft,
-              canvasTop,
-              canvasItemWidth,
-              canvasItemHeight
+            
+            // 绘制圆角矩形
+            drawRoundedRect(
+              ctx, 
+              canvasLeft, 
+              canvasTop, 
+              canvasItemWidth, 
+              canvasItemHeight, 
+              borderRadius
             );
+            ctx.fill();
 
             // 如果有图片URL，则绘制图片
             if (item.url) {
@@ -539,13 +577,15 @@ const handleSavePuzzle = () => {
               // 保存当前状态，绘制图片后恢复
               ctx.save();
 
-              // 创建裁剪区域（子元素的矩形区域）
+              // 创建圆角裁剪区域（子元素的圆角矩形区域）
               ctx.beginPath();
-              ctx.rect(
-                canvasLeft,
-                canvasTop,
-                canvasItemWidth,
-                canvasItemHeight
+              drawRoundedRect(
+                ctx, 
+                canvasLeft, 
+                canvasTop, 
+                canvasItemWidth, 
+                canvasItemHeight, 
+                borderRadius
               );
               ctx.clip();
 
@@ -1075,7 +1115,6 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
       canvas-id="puzzleCanvas"
       style="width: 4096px; height: 4096px"
       :style="{
-        display: isExpand ? 'block' : 'none',
         marginTop: '100vh',
       }"
     ></canvas>

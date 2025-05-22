@@ -11,7 +11,9 @@ import { computed } from "vue";
 import { usePuzzleStore } from "@/store/modules/puzzle";
 import { nanoid } from "nanoid/non-secure";
 const puzzleStore = usePuzzleStore();
-import { useToast } from 'wot-design-uni';
+import { useSudokuStore } from "@/store/modules/sudoku";
+const sudokuStore = useSudokuStore();
+import { useToast } from "wot-design-uni";
 
 const toast = useToast();
 
@@ -30,6 +32,7 @@ const info = [
     desc: "一张图片分割多张",
     key: "2",
     iconColor: "#7fd6fb",
+    path: "sudoku",
   },
   {
     label: "拼长图",
@@ -58,63 +61,70 @@ const navBarHeight = computed(() => {
 });
 
 const handleClick = (item: any) => {
+  const count = item.key === "1" ? 9 : 1;
   uni.chooseMedia({
-  count: 9,
-  mediaType: ['image'],
-  sourceType: ['album'],
-  success: async (res) => {
-    const mediaInfoList = [];
-    const promiseList = res.tempFiles.map((item) => {
-      return new Promise((resolve) => {
-        uni.getImageInfo({
-          src: item.tempFilePath,
-          success: (imageRes) => {
-            resolve({
-              id: nanoid(),
-              url: item.tempFilePath,
-              width: imageRes.width,
-              height: imageRes.height,
-              rotate: 0,
-              scaleX: 1,
-              scaleY: 1,
-              opacity: 1,
-              scale: 1,
-            });
-          },
-          fail: (err) => {
-            console.error('获取图片信息失败:', err);
-            resolve({
-              id: nanoid(),
-              url: item.tempFilePath,
-              width: 0,
-              height: 0,
-              rotate: 0,
-              scaleX: 1,
-              scaleY: 1,
-              opacity: 1,
-              scale: 1,
-            });
-          },
+    count: count,
+    mediaType: ["image"],
+    sourceType: ["album"],
+    success: async (res) => {
+      const mediaInfoList = [];
+      const promiseList = res.tempFiles.map((item) => {
+        return new Promise((resolve) => {
+          uni.getImageInfo({
+            src: item.tempFilePath,
+            success: (imageRes) => {
+              resolve({
+                id: nanoid(),
+                url: item.tempFilePath,
+                width: imageRes.width,
+                height: imageRes.height,
+                rotate: 0,
+                scaleX: 1,
+                scaleY: 1,
+                opacity: 1,
+                scale: 1,
+              });
+            },
+            fail: (err) => {
+              console.error("获取图片信息失败:", err);
+              resolve({
+                id: nanoid(),
+                url: item.tempFilePath,
+                width: 0,
+                height: 0,
+                rotate: 0,
+                scaleX: 1,
+                scaleY: 1,
+                opacity: 1,
+                scale: 1,
+              });
+            },
+          });
         });
       });
-    });
 
-    try {
-      mediaInfoList.push(...(await Promise.all(promiseList)));
-      // 确保图像信息已获取完毕后再进行后续操作
-      puzzleStore.setImageList(mediaInfoList);
-      // 如果需要进行页面跳转，可以在这里进行
-      // 但要确保跳转的 URL 是合法的
-      // 其中 "item.path" 需要替换为实际的页面路径
-      uni.navigateTo({ url: `/pages/puzzle/${item.path}` });
-    } catch (error) {
-      console.error('处理图片信息时出错:', error);
-    }
-  },
-  fail: (err) => {
-    console.error('选择媒体失败:', err);
-  },
-});
+      try {
+        mediaInfoList.push(...(await Promise.all(promiseList)));
+        // 如果需要进行页面跳转，可以在这里进行
+        // 但要确保跳转的 URL 是合法的
+        // 其中 "item.path" 需要替换为实际的页面路径
+        if (item.key === "1") {
+          // 确保图像信息已获取完毕后再进行后续操作
+          puzzleStore.setImageList(mediaInfoList);
+          uni.navigateTo({ url: `/pages/puzzle/${item.path}` });
+        }
+        if (item.key === "2") {
+          sudokuStore.setSudokuInfo(mediaInfoList[0]);
+          uni.navigateTo({ url: `/pages/sudoku/${item.path}` });
+        }
+      } catch (error) {
+        console.error("处理图片信息时出错:", error);
+      }
+    },
+    fail: (err) => {
+      console.error("选择媒体失败:", err);
+    },
+  });
 };
 </script>
 <template>

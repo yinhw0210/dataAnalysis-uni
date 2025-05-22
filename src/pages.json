@@ -29,6 +29,10 @@
       "type": "page"
     },
     {
+      "path": "pages/sudoku/sudoku",
+      "type": "page"
+    },
+    {
       "path": "pages/user/index",
       "type": "user",
       "layout": "main",

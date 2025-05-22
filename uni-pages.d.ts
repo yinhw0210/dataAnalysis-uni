@@ -9,6 +9,7 @@ interface NavigateToOptions {
        "/pages/issue/index" |
        "/pages/puzzle/puzzle" |
        "/pages/spread/index" |
+       "/pages/sudoku/sudoku" |
        "/pages/user/index";
 }
 interface RedirectToOptions extends NavigateToOptions {}
