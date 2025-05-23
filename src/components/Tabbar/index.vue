@@ -17,7 +17,7 @@ const handleChange = ({ value }: { value: string }) => {
 <template>
   <wd-tabbar :model-value="tabbar" fixed @change="handleChange">
     <wd-tabbar-item name="home" title="首页" icon="home"></wd-tabbar-item>
-    <wd-tabbar-item name="tool" title="工具" icon="tools"></wd-tabbar-item>
+    <wd-tabbar-item name="tool" title="拼图" icon="image"></wd-tabbar-item>
     <wd-tabbar-item name="user" title="我的" icon="user"></wd-tabbar-item>
   </wd-tabbar>
 </template>

@@ -20,7 +20,7 @@ const toast = useToast();
 const info = [
   {
     label: "排版拼图",
-    icon: "https://free4.yunpng.top/2025/04/22/68074a741c71e.png",
+    icon: "https://img.picui.cn/free/2025/05/23/683009e0409b9.png",
     desc: "多张图片一键合成任意模板",
     key: "1",
     iconColor: "#72b8f9",
@@ -28,7 +28,7 @@ const info = [
   },
   {
     label: "切分九宫格",
-    icon: "https://free4.yunpng.top/2025/04/22/68074a740e402.png",
+    icon: "https://img.picui.cn/free/2025/05/23/683009e03ea99.png",
     desc: "一张图片分割多张",
     key: "2",
     iconColor: "#7fd6fb",
@@ -36,14 +36,14 @@ const info = [
   },
   {
     label: "拼长图",
-    icon: "https://free4.yunpng.top/2025/04/22/68074a75875e0.png",
+    icon: "https://img.picui.cn/free/2025/05/23/683009e039ee6.png",
     desc: "多张图片合成一张长图",
     key: "3",
     iconColor: "#8378f7",
   },
   {
     label: "图片相框",
-    icon: "https://free4.yunpng.top/2025/04/22/68074a75a6c68.png",
+    icon: "https://img.picui.cn/free/2025/05/23/683009e03b375.png",
     desc: "给图片加相框",
     key: "4",
     iconColor: "#396be5",
@@ -61,6 +61,13 @@ const navBarHeight = computed(() => {
 });
 
 const handleClick = (item: any) => {
+  if (item.key === "3" || item.key === "4") {
+    uni.showToast({
+      title: "敬请期待",
+      icon: "none",
+    });
+    return;
+  }
   const count = item.key === "1" ? 9 : 1;
   uni.chooseMedia({
     count: count,

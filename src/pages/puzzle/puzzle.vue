@@ -452,7 +452,86 @@ const handleAdvancedEditOption = (key: string) => {
 };
 
 onMounted(() => {
-  selectImageList.value = puzzleStore.getImageList
+  // selectImageList.value = puzzleStore.getImageList;
+  selectImageList.value = [
+    {
+      id: "d-O6EFN7eFYE0hWQ873uy",
+      url: "http://tmp/D9AJRKlUM7L8f94db572be05ab11ef8334879d1990f6.jpg",
+      width: 1080,
+      height: 1080,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+    {
+      id: "e5nAxJAwE_rzILqTmCOP7",
+      url: "http://tmp/fZpwwOIfj1eRef80608172b97acf77bf1c7e3e659761.jpg",
+      width: 480,
+      height: 480,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+    {
+      id: "v9fRHU_Qbna-446n_UOfg",
+      url: "http://tmp/hP14zECNdi1Zb4eee00c46861daa686351295de9df11.jpg",
+      width: 1077,
+      height: 1078,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+    {
+      id: "sPIZCsx1u9K5o18zDx-xE",
+      url: "http://tmp/EtpW8I4ESLEo5b694b92a0c507c2099dc32ac2ddd968.jpg",
+      width: 1279,
+      height: 1706,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+    {
+      id: "HlmibY3skJWuiZCXGCgN2",
+      url: "http://tmp/ttIUZMpt71qG7cb231da09a9f061ab4f536840923abd.jpg",
+      width: 1279,
+      height: 1706,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+    {
+      id: "HlmibY3skJWuiZ222CXGCgN2",
+      url: "http://tmp/ttIUZMpt71qG7cb231da09a9f061ab4f536840923abd.jpg",
+      width: 1279,
+      height: 1706,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+    {
+      id: "HlmibY3sk22JWuiZ222CXGCgN2",
+      url: "http://tmp/ttIUZMpt71qG7cb231da09a9f061ab4f536840923abd.jpg",
+      width: 1279,
+      height: 1706,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+      opacity: 1,
+      scale: 1,
+    },
+  ] as any
 });
 
 // 添加绘制圆角矩形的辅助函数
@@ -468,16 +547,22 @@ const drawRoundedRect = (
     ctx.rect(x, y, width, height);
     return;
   }
-  
+
   // 确保圆角半径不超过宽高的一半
   const actualRadius = Math.min(radius, width / 2, height / 2);
-  
+
   ctx.beginPath();
   ctx.moveTo(x + actualRadius, y);
   ctx.lineTo(x + width - actualRadius, y);
   ctx.arcTo(x + width, y, x + width, y + actualRadius, actualRadius);
   ctx.lineTo(x + width, y + height - actualRadius);
-  ctx.arcTo(x + width, y + height, x + width - actualRadius, y + height, actualRadius);
+  ctx.arcTo(
+    x + width,
+    y + height,
+    x + width - actualRadius,
+    y + height,
+    actualRadius
+  );
   ctx.lineTo(x + actualRadius, y + height);
   ctx.arcTo(x, y + height, x, y + height - actualRadius, actualRadius);
   ctx.lineTo(x, y + actualRadius);
@@ -552,14 +637,14 @@ const handleSavePuzzle = () => {
 
             // 绘制子元素背景（带圆角）
             ctx.fillStyle = "#b2b2b2";
-            
+
             // 绘制圆角矩形
             drawRoundedRect(
-              ctx, 
-              canvasLeft, 
-              canvasTop, 
-              canvasItemWidth, 
-              canvasItemHeight, 
+              ctx,
+              canvasLeft,
+              canvasTop,
+              canvasItemWidth,
+              canvasItemHeight,
               borderRadius
             );
             ctx.fill();
@@ -580,11 +665,11 @@ const handleSavePuzzle = () => {
               // 创建圆角裁剪区域（子元素的圆角矩形区域）
               ctx.beginPath();
               drawRoundedRect(
-                ctx, 
-                canvasLeft, 
-                canvasTop, 
-                canvasItemWidth, 
-                canvasItemHeight, 
+                ctx,
+                canvasLeft,
+                canvasTop,
+                canvasItemWidth,
+                canvasItemHeight,
                 borderRadius
               );
               ctx.clip();
@@ -1140,14 +1225,14 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
 }
 
 :deep(.frameSlider) {
-  .wd-slider__button-wrapper{
-    .wd-slider__button{
-      width: 28rpx!important;
-      height: 28rpx!important;
+  .wd-slider__button-wrapper {
+    .wd-slider__button {
+      width: 28rpx !important;
+      height: 28rpx !important;
     }
-    .wd-slider__label{
-      left: -8rpx!important;
-      bottom: 40rpx!important;
+    .wd-slider__label {
+      left: -8rpx !important;
+      bottom: 40rpx !important;
     }
   }
 }

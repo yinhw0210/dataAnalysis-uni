@@ -12,7 +12,7 @@
         class="w-[140rpx] h-[140rpx] absolute loading"
       ></div>
     </div>
-    <div class="text-xl font-bold mt-[40rpx]">Solivix Tool</div>
+    <div class="text-xl font-bold mt-[40rpx]">星栈屿</div>
   </div>
 </template>
 

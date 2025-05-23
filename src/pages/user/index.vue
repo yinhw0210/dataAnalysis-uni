@@ -36,7 +36,7 @@ const onHandleIssue = () => {
       :style="{ height: `${navBarHeight}px` }"
       class="flex justify-center items-center px-[16rpx] font-bold"
     >
-      Solivix Tool
+      星栈屿
     </div>
     <div
       :style="{ height: `${contentHeight}px` }"
