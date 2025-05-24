@@ -68,7 +68,7 @@ const handleClick = (item: any) => {
     });
     return;
   }
-  const count = item.key === "1" ? 9 : 1;
+  const count = item.key === "1" ? 20 : 1;
   uni.chooseMedia({
     count: count,
     mediaType: ["image"],

@@ -82,6 +82,9 @@ export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
             {
                 key: '1',
                 style: "justify-content: center;align-items: center;",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
             },
         ],
     },
@@ -963,7 +966,7 @@ export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
             },
             {
                 key: '6',
-                style: "grid-template-rows: repeat(3,1fr);grid-template-columns: repeat(4, 1fr);",
+                style: "grid-template-rows: 1fr 1fr 1fr;grid-template-columns: 1fr 1fr 1fr;",
                 children: [
                     [undefined, StandardPuzzleNum.HEIGHT],
                     ["grid-row: span 2;grid-column: span 3;", StandardPuzzleNum.WIDTH],
@@ -1132,13 +1135,760 @@ export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
             }
         ]
     },
-    [PuzzleNumEnum.EIGHT]: undefined,
-    [PuzzleNumEnum.NINE]: undefined,
-    [PuzzleNumEnum.TEN]: undefined,
-    [PuzzleNumEnum.ELEVEN]: undefined,
-    [PuzzleNumEnum.TWELVE]: undefined,
-    [PuzzleNumEnum.THIRTEEN]: undefined,
-    [PuzzleNumEnum.FOURTEEN]: undefined,
-    [PuzzleNumEnum.FIFTEEN]: undefined,
-    [PuzzleNumEnum.SIXTEEN]: undefined
+    [PuzzleNumEnum.EIGHT]: {
+        key: PuzzleNumEnum.EIGHT,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: 1fr 1fr;grid-template-rows: 1fr 1fr 1fr 1fr;",
+                children: [
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '2',
+                style: "grid-template-columns: 1fr 1fr 1fr 1fr;grid-template-rows: 1fr 1fr;",
+                children: [
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                ]
+            },
+            {
+                key: '3',
+                style: "grid-template-columns: 1fr 1fr 1fr 1fr;grid-template-rows: 1fr 1fr 1fr 1fr;",
+                children: [
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '4',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '5',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column: span 3;grid-row: span 3;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '6',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;grid-row: span 3;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '7',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;grid-row: span 3;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '8',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '9',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(3,1fr);",
+                children: [
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '10',
+                style: "grid-template-columns: repeat(6,1fr);grid-template-rows: repeat(3,1fr);",
+                children: [
+                    ["grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '11',
+                style: "grid-template-columns: repeat(3,1fr);grid-template-rows: repeat(6,1fr);",
+                children: [
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 3;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 3;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '12',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;grid-column: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '13',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '14',
+                style: "grid-template-columns: repeat(6,1fr);grid-template-rows: repeat(5,1fr);",
+                children: [
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-row: span 2;grid-column: span 6", StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '15',
+                style: "grid-template-columns: repeat(3,1fr);grid-template-rows: repeat(6,1fr);",
+                children: [
+                    ["grid-row: span 3;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 3;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row: span 2;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '16',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column: span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row: span 2;", StandardPuzzleNum.HEIGHT],
+                ]
+            }
+        ]
+    },
+    [PuzzleNumEnum.NINE]: {
+        key: PuzzleNumEnum.NINE,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(3,1fr);grid-template-rows: repeat(3,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '2',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;grid-row:span 4;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '3',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 4;grid-row:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '4',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column:span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '5',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 2;grid-row:span 4;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '6',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 4;grid-row:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '7',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-row:span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '8',
+                style: "grid-template-columns: repeat(6,1fr);grid-template-rows: repeat(6,1fr);",
+                children: [
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 3;grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 3;grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 3;grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.TEN]: {
+        key: PuzzleNumEnum.TEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(2,1fr);grid-template-rows: repeat(5,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '2',
+                style: "grid-template-columns: repeat(5,1fr);grid-template-rows: repeat(5,1fr);",
+                children: [
+                    ["grid-column:span 4;grid-row:span 4;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '3',
+                style: "grid-template-columns: repeat(3,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 3;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '4',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(3,1fr);",
+                children: [
+                    ["grid-row:span 3;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                ]
+            },
+            {
+                key: '5',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '6',
+                style: "grid-template-columns: repeat(8,1fr);grid-template-rows: repeat(8,1fr);",
+                children: [
+                    ["grid-row:span 4;grid-column:span 4;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 4;grid-column:span 4;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 4;grid-column:span 4;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '7',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '8',
+                style: "grid-template-columns: repeat(3,1fr);grid-template-rows: repeat(6,1fr);",
+                children: [
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '9',
+                style: "grid-template-columns: repeat(12,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 4;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 4;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 4;", StandardPuzzleNum.WIDTH],
+                    ["grid-row:span 2;grid-column:span 3", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 2;grid-column:span 3", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 2;grid-column:span 3", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 2;grid-column:span 3", StandardPuzzleNum.HEIGHT],
+                    ["grid-column:span 4;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 4;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 4;", StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '10',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.ELEVEN]: {
+        key: PuzzleNumEnum.ELEVEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '2',
+                style: "grid-template-columns: repeat(6,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 3;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '3',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.HEIGHT],
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 2;", StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.TWELVE]: {
+        key: PuzzleNumEnum.ELEVEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(2,1fr);grid-template-rows: repeat(6,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH],
+                ]
+            },
+            {
+                key: '2',
+                style: "grid-template-columns: repeat(6,1fr);grid-template-rows: repeat(6,1fr);",
+                children: [
+                    ["grid-column:span 5;grid-row:span 5;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '3',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(12,1fr);",
+                children: [
+                    ["grid-row:span 4;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 4;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 6;grid-column:span 2;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                    ["grid-row:span 4;", StandardPuzzleNum.HEIGHT],
+                    ["grid-row:span 3;", StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.THIRTEEN]: {
+        key: PuzzleNumEnum.THIRTEEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+            {
+                key: '2',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    ["grid-column:span 2;grid-row:span 2;", StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.FOURTEEN]: {
+        key: PuzzleNumEnum.FOURTEEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.FIFTEEN]: {
+        key: PuzzleNumEnum.FIFTEEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    ["grid-column:span 2;", StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    },
+    [PuzzleNumEnum.SIXTEEN]: {
+        key: PuzzleNumEnum.FIFTEEN,
+        children: [
+            {
+                key: '1',
+                style: "grid-template-columns: repeat(4,1fr);grid-template-rows: repeat(4,1fr);",
+                children: [
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                    [undefined, StandardPuzzleNum.EQUAL],
+                ]
+            },
+        ]
+    }
 }
