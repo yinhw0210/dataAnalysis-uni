@@ -95,16 +95,16 @@ export const PUZZLE_INFO: Record<PuzzleNumEnum, IPuzzleInfo> = {
                 key: '1',
                 style: "grid-template-columns: 1fr 1fr;",
                 children: [
-                    [undefined, StandardPuzzleNum.WIDTH],
-                    [undefined, StandardPuzzleNum.WIDTH]
+                    [undefined, StandardPuzzleNum.HEIGHT],
+                    [undefined, StandardPuzzleNum.HEIGHT]
                 ]
             },
             {
                 key: '2',
                 style: "grid-template-rows: 1fr 1fr;",
                 children: [
-                    [undefined, StandardPuzzleNum.HEIGHT],
-                    [undefined, StandardPuzzleNum.HEIGHT]
+                    [undefined, StandardPuzzleNum.WIDTH],
+                    [undefined, StandardPuzzleNum.WIDTH]
                 ]
             },
         ],

@@ -109,9 +109,15 @@ const handleClick = (item: any) => {
           });
         });
       });
-
       try {
         mediaInfoList.push(...(await Promise.all(promiseList)));
+        if (item.key === "1" && mediaInfoList.length === 1) {
+          uni.showToast({
+            title: "请选择多张图片",
+            icon: "none",
+          });
+          return;
+        }
         // 如果需要进行页面跳转，可以在这里进行
         // 但要确保跳转的 URL 是合法的
         // 其中 "item.path" 需要替换为实际的页面路径

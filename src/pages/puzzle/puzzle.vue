@@ -312,7 +312,13 @@ const onHandleAdvancedEditExpand = () => {
 };
 
 const onHandleFrameEditExpand = () => {
-  isFrameEditExpand.value = !isFrameEditExpand.value;
+  if (isFrameEditExpand.value) {
+    isFrameEditExpand.value = false;
+    isExpand.value = true;
+  } else {
+    isFrameEditExpand.value = true;
+    isExpand.value = false;
+  }
 };
 
 const handleOpacityDragMove = (info: { value: number }) => {
@@ -464,39 +470,42 @@ const drawRoundedRect = (
   height: number,
   radius: number
 ) => {
-  if (radius === 0) {
+  // 确保圆角半径不超过宽高的一半
+  radius = Math.min(radius, width / 2, height / 2);
+  
+  if (radius <= 0) {
+    // 如果没有圆角，直接绘制矩形
     ctx.rect(x, y, width, height);
     return;
   }
 
-  // 确保圆角半径不超过宽高的一半
-  const actualRadius = Math.min(radius, width / 2, height / 2);
-
-  ctx.beginPath();
-  ctx.moveTo(x + actualRadius, y);
-  ctx.lineTo(x + width - actualRadius, y);
-  ctx.arcTo(x + width, y, x + width, y + actualRadius, actualRadius);
-  ctx.lineTo(x + width, y + height - actualRadius);
-  ctx.arcTo(
-    x + width,
-    y + height,
-    x + width - actualRadius,
-    y + height,
-    actualRadius
-  );
-  ctx.lineTo(x + actualRadius, y + height);
-  ctx.arcTo(x, y + height, x, y + height - actualRadius, actualRadius);
-  ctx.lineTo(x, y + actualRadius);
-  ctx.arcTo(x, y, x + actualRadius, y, actualRadius);
-  ctx.closePath();
+  // 绘制圆角矩形路径
+  ctx.moveTo(x + radius, y);                              // 从左上角的圆弧右侧开始
+  ctx.lineTo(x + width - radius, y);                      // 到右上角圆弧左侧
+  ctx.arc(x + width - radius, y + radius, radius, -Math.PI/2, 0); // 绘制右上角圆弧
+  ctx.lineTo(x + width, y + height - radius);             // 到右下角圆弧上侧
+  ctx.arc(x + width - radius, y + height - radius, radius, 0, Math.PI/2); // 绘制右下角圆弧
+  ctx.lineTo(x + radius, y + height);                     // 到左下角圆弧右侧
+  ctx.arc(x + radius, y + height - radius, radius, Math.PI/2, Math.PI); // 绘制左下角圆弧
+  ctx.lineTo(x, y + radius);                              // 到左上角圆弧下侧
+  ctx.arc(x + radius, y + radius, radius, Math.PI, -Math.PI/2); // 绘制左上角圆弧
+  
+  // 不需要调用closePath，因为最后一个圆弧会回到起点
 };
 
 const handleSavePuzzle = () => {
+  // 显示loading
+  uni.showLoading({
+    title: '正在保存...',
+    mask: true
+  });
+
   uni
     .createSelectorQuery()
     .select("#puzzleContainer")
     .boundingClientRect((containerRect: UniApp.NodeInfo) => {
       if (!containerRect) {
+        uni.hideLoading(); // 隐藏loading
         uni.showToast({
           title: "获取容器信息失败",
           icon: "none",
@@ -532,6 +541,7 @@ const handleSavePuzzle = () => {
         .selectAll("#puzzleContainer .childItem")
         .boundingClientRect((childRects: UniApp.NodeInfo[]) => {
           if (!childRects || childRects.length === 0) {
+            uni.hideLoading(); // 隐藏loading
             uni.showToast({
               title: "获取子元素信息失败",
               icon: "none",
@@ -554,12 +564,15 @@ const handleSavePuzzle = () => {
             const canvasItemHeight = rect.height * scaleY;
 
             // 计算圆角半径（按比例缩放）
-            const borderRadius = borderRadiusValue.value * scaleX;
+            const borderRadius = borderRadiusValue.value * Math.min(scaleX, scaleY);
 
             // 绘制子元素背景（带圆角）
+            ctx.save(); // 保存当前状态，以便后面恢复
+
             ctx.fillStyle = "#b2b2b2";
 
-            // 绘制圆角矩形
+            // 绘制圆角矩形并填充
+            ctx.beginPath(); // 确保开始一个新路径
             drawRoundedRect(
               ctx,
               canvasLeft,
@@ -580,11 +593,11 @@ const handleSavePuzzle = () => {
               const imageInfo = selectStylePuzzleInfo.value.children[index];
               const imageMode = getImageMode(item, imageInfo);
 
-              // 保存当前状态，绘制图片后恢复
-              ctx.save();
+              // 创建单独的裁剪区域
+              ctx.save(); // 再次保存状态，以便之后恢复图片变换前的状态
 
               // 创建圆角裁剪区域（子元素的圆角矩形区域）
-              ctx.beginPath();
+              ctx.beginPath(); // 确保开始一个新的路径
               drawRoundedRect(
                 ctx,
                 canvasLeft,
@@ -643,8 +656,7 @@ const handleSavePuzzle = () => {
               }
 
               // 旋转和缩放处理
-              // 先进行额外的保存，以便仅对绘图操作应用变换
-              ctx.save();
+              ctx.save(); // 再次保存状态，只为变换操作
 
               // 计算变换的中心点：图片在画布上的实际中心
               const centerX = drawX + drawWidth / 2;
@@ -689,6 +701,9 @@ const handleSavePuzzle = () => {
                 canvasTop + canvasItemHeight / 2
               );
             }
+            
+            // 恢复最初的状态
+            ctx.restore();
           });
 
           // 绘制完成后保存
@@ -705,12 +720,14 @@ const handleSavePuzzle = () => {
                 uni.saveImageToPhotosAlbum({
                   filePath: res.tempFilePath,
                   success: () => {
+                    uni.hideLoading(); // 隐藏loading
                     uni.showToast({
                       title: "保存成功",
                       icon: "success",
                     });
                   },
                   fail: (err) => {
+                    uni.hideLoading(); // 隐藏loading
                     console.log(err, "保存到相册失败");
                     uni.showToast({
                       title: "保存失败",
@@ -720,6 +737,7 @@ const handleSavePuzzle = () => {
                 });
               },
               fail: (err) => {
+                uni.hideLoading(); // 隐藏loading
                 console.log(err, "导出图片失败");
                 uni.showToast({
                   title: "导出图片失败",
