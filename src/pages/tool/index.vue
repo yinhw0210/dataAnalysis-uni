@@ -35,16 +35,16 @@ const info = [
     path: "sudoku",
   },
   {
-    label: "拼长图",
+    label: "AI证件照",
     icon: "https://img.picui.cn/free/2025/05/23/683009e039ee6.png",
-    desc: "多张图片合成一张长图",
+    desc: "AI一键生成证件照",
     key: "3",
     iconColor: "#8378f7",
   },
   {
-    label: "图片相框",
+    label: "拼长图",
     icon: "https://img.picui.cn/free/2025/05/23/683009e03b375.png",
-    desc: "给图片加相框",
+    desc: "多张图片合成一张长图",
     key: "4",
     iconColor: "#396be5",
   },
@@ -63,12 +63,12 @@ const navBarHeight = computed(() => {
 const handleClick = (item: any) => {
   if (item.key === "3" || item.key === "4") {
     uni.showToast({
-      title: "敬请期待",
+      title: "功能内测中，敬请期待",
       icon: "none",
     });
     return;
   }
-  const count = item.key === "1" ? 20 : 1;
+  const count = item.key === "1" ? 16 : 1;
   uni.chooseMedia({
     count: count,
     mediaType: ["image"],

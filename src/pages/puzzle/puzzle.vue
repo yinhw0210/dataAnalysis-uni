@@ -326,6 +326,108 @@ const handleOpacityDragMove = (info: { value: number }) => {
   currentItem.opacity = info.value / 100;
 };
 
+// 添加handleAddImage函数
+const handleAddImage = () => {
+  // 检查当前图片数量，如果已达到16张，提示用户并返回
+  if (selectImageList.value.length >= 16) {
+    uni.showToast({
+      title: "最多支持16张图片",
+      icon: "none"
+    });
+    return;
+  }
+
+  uni.chooseMedia({
+    count: 16 - selectImageList.value.length, // 限制可选图片数量为剩余可添加的数量
+    mediaType: ["image"],
+    sourceType: ["album"],
+    success: async (res) => {
+      // 判断选择后是否会超出16张
+      const totalCount = selectImageList.value.length + res.tempFiles.length;
+      let showExceedMessage = false;
+      
+      if (totalCount > 16) {
+        showExceedMessage = true;
+        // 计算可添加的图片数量
+        const remainingSlots = 16 - selectImageList.value.length;
+        // 截取前remainingSlots张图片
+        res.tempFiles = res.tempFiles.slice(0, remainingSlots);
+      }
+
+      const promiseList = res.tempFiles.map((item) => {
+        return new Promise((resolve) => {
+          uni.getImageInfo({
+            src: item.tempFilePath,
+            success: (imageRes) => {
+              resolve({
+                id: nanoid(),
+                url: item.tempFilePath,
+                width: imageRes.width,
+                height: imageRes.height,
+                rotate: 0,
+                offsetX: 0,
+                offsetY: 0,
+                opacity: 1,
+                scaleX: 1,
+                scaleY: 1,
+                scale: 1
+              });
+            },
+            fail: (err) => {
+              console.error("获取图片信息失败:", err);
+              resolve({
+                id: nanoid(),
+                url: item.tempFilePath,
+                width: 0,
+                height: 0,
+                rotate: 0,
+                offsetX: 0,
+                offsetY: 0,
+                opacity: 1,
+                scaleX: 1,
+                scaleY: 1,
+                scale: 1
+              });
+            },
+          });
+        });
+      });
+      
+      if (promiseList.length === 0) {
+        return; // 如果没有可添加的图片，直接返回
+      }
+
+      const imageInfoList = await Promise.all(promiseList);
+      
+      // 将新图片添加到图片列表中
+      selectImageList.value = [...selectImageList.value, ...(imageInfoList as IImageInfo[])];
+      
+      // 自动选中新添加的第一张图片
+      selectImageIndex.value = selectImageList.value.length - imageInfoList.length;
+      
+      // 展开编辑面板
+      isConfigExpand.value = true;
+      isExpand.value = false;
+      
+      // 如果超出限制，显示提示
+      if (showExceedMessage) {
+        uni.showToast({
+          title: "最多支持16张图片，超出部分已忽略",
+          icon: "none",
+          duration: 2000
+        });
+      }
+    },
+    fail: (err) => {
+      console.error("选择图片失败:", err);
+      uni.showToast({
+        title: "选择图片失败",
+        icon: "none",
+      });
+    }
+  });
+};
+
 const handleReplaceImage = (key: string) => {
   console.log(key, "key");
   uni.chooseMedia({
@@ -569,7 +671,7 @@ const handleSavePuzzle = () => {
             // 绘制子元素背景（带圆角）
             ctx.save(); // 保存当前状态，以便后面恢复
 
-            ctx.fillStyle = "#b2b2b2";
+            ctx.fillStyle = "#fff";
 
             // 绘制圆角矩形并填充
             ctx.beginPath(); // 确保开始一个新路径
@@ -795,7 +897,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
   <div class="size-full h-[100vh] overflow-hidden bg-[#e4f0f9] relative">
     <div class="w-full h-[70vh] flex items-center justify-center">
       <div
-        class="w-full overflow-hidden"
+        class="w-full overflow-hidden bg-white"
         :style="{
           aspectRatio: ratioInfo?.ratio,
           maxWidth: `calc(70vh * ${ratioInfo?.ratio})`,
@@ -954,6 +1056,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
       >
         <div
           class="w-[200rpx] h-[60rpx] rounded-2xl text-[#396be5] bg-[#d7e1fa] flex items-center justify-center"
+          @click="handleAddImage"
         >
           添加图片
         </div>

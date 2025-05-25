@@ -889,7 +889,7 @@ onMounted(() => {
           class="w-[200rpx] h-[60rpx] rounded-2xl text-[#fff] bg-[#396be5] flex items-center justify-center"
           @click="handleSavePuzzle"
         >
-          保存拼图
+          保存切图
         </div>
       </div>
     </div>
