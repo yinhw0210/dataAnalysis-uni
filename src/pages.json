@@ -17,6 +17,27 @@
       }
     },
     {
+      "path": "pages/photoGenerate/index",
+      "type": "home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/photo/photo",
+      "type": "home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/generate/index",
+      "type": "home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/issue/index",
       "type": "page"
     },

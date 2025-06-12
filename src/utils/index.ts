@@ -45,7 +45,7 @@ export const getAspectRatioArray = (ratio: string) => {
 };
 
 // 判断两个元素是否存在重叠，并且重叠面积占各自元素的比例在50%到100%之间
-export const isOverlapRateBetween = (source: ItemInfoType, target: ItemInfoType,ratio: number | number[]) => {
+export const isOverlapRateBetween = (source: ItemInfoType, target: ItemInfoType, ratio: number | number[]) => {
   // 提取元素1的坐标和尺寸
   const { left: l1, right: r1, top: t1, bottom: b1, width: w1, height: h1 } = source;
   // 提取元素2的坐标和尺寸
@@ -60,7 +60,7 @@ export const isOverlapRateBetween = (source: ItemInfoType, target: ItemInfoType,
 
   // 检查是否存在重叠
   if (xOverlapStart >= xOverlapEnd || yOverlapStart >= yOverlapEnd) {
-      return false;
+    return false;
   }
 
   // 计算重叠区域的宽度和高度
@@ -83,3 +83,28 @@ export const isOverlapRateBetween = (source: ItemInfoType, target: ItemInfoType,
     return (ratio1 >= ratio && ratio1 <= 1) || (ratio2 >= ratio && ratio2 <= 1);
   }
 }
+
+export const rgbStringToArray = (rgbString: string) => {
+  // 使用正则表达式匹配数字
+  const matches = rgbString.match(/\d+/g);
+  // 将匹配的字符串数字转换为整数数组
+  return matches ? matches.map(Number) : [];
+}
+
+export const base64ToTempFilePath = (base64: string) => {
+  const fs = uni.getFileSystemManager();
+  const times = Date.now();
+  const base64Data = base64.replace(/^data:image\/\w+;base64,/, '');
+  const tempFilePath = `${(uni as any).env.USER_DATA_PATH}/tmp_${times}.png`;
+  return new Promise<string>((resolve, reject) => {
+    fs.writeFile({
+      filePath: tempFilePath,
+      data: base64Data,
+      encoding:"base64",
+      success: () => {
+        resolve(tempFilePath);
+      },
+      fail: reject,
+    });
+  });
+};

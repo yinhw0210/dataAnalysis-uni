@@ -5,7 +5,10 @@
 
 interface NavigateToOptions {
   url: "/pages/tool/index" |
+       "/pages/photoGenerate/index" |
+       "/pages/photo/photo" |
        "/pages/home/index" |
+       "/pages/generate/index" |
        "/pages/issue/index" |
        "/pages/puzzle/puzzle" |
        "/pages/spread/index" |
