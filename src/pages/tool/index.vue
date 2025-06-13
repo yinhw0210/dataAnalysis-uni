@@ -61,11 +61,15 @@ const navBarHeight = computed(() => {
 });
 
 const handleClick = (item: any) => {
-  if (item.key === "3" || item.key === "4") {
+  if (item.key === "4") {
     uni.showToast({
       title: "功能内测中，敬请期待",
       icon: "none",
     });
+    return;
+  }
+  if (item.key === "3") {
+    uni.navigateTo({ url: `/pages/photo/photo` });
     return;
   }
   const count = item.key === "1" ? 16 : 1;

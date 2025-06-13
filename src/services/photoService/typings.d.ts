@@ -88,6 +88,30 @@ export namespace PhotoType {
      */
     image_base64: string
   }
+
+  export interface ImageSizeModifyParams {
+    /**
+     * 图片base64
+     */
+    input_image_base64: string
+
+    /**
+     * kb
+     */
+    kb: number
+
+    /**
+     * dpi
+     */
+    dpi: number
+  }
+
+  export interface ImageSizeModifyResult {
+    /**
+     * 图片base64
+     */
+    image_base64: string
+  }
 }
 
 declare global {

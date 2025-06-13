@@ -1,98 +1,156 @@
-# dataAnalysis-uni
-抖音去水印，快手去水印，小红书去水印，快速、高质量地移除视频水印或图片水印
+# DataAnalysis-Uni 多功能媒体工具箱
 
-# 可拖拽网格组件 (DraggableGrid)
+![Banner](https://img.picui.cn/free/2025/04/20/6804ab7e87ee1.png)
 
-这是一个基于uniapp框架开发的微信小程序可拖拽网格组件，支持元素拖拽并在重叠度超过30%时交换位置。
+## 项目介绍
 
-## 特点
+DataAnalysis-Uni 是一个基于 uni-app 框架开发的多端应用，集成了丰富的媒体处理工具。本项目旨在提供一站式的图片和视频处理解决方案，让用户能够轻松完成各种媒体处理任务。
 
-- 基于grid布局而非movable-area
-- 支持自定义列数和间距
-- 拖拽时自动计算元素重叠度
-- 当重叠度超过30%时自动交换位置
-- 完全自定义项目内容（通过插槽）
+## 核心功能
 
-## 使用方法
+### 1. 多平台去水印
 
-### 导入组件
+- **支持平台**: 抖音、快手、小红书、微博等主流短视频和图文平台
+- **操作简便**: 只需复制链接，一键解析并去除水印
+- **高质量输出**: 保持原始视频和图片的质量
+- **快速保存**: 支持直接保存到本地相册
 
-```vue
-<script>
-import DraggableGrid from '@/components/DraggableGrid.vue';
+### 2. 智能拼图
 
-export default {
-  components: {
-    DraggableGrid
-  }
-}
-</script>
+- **多种布局**: 支持横排、竖排、网格等多种拼图布局
+- **自定义间距**: 可调整图片之间的间距和边框
+- **背景定制**: 支持自定义拼图背景颜色或图案
+- **一键分享**: 完成后可直接保存或分享给好友
+
+### 3. 九宫格切分
+
+- **智能切分**: 自动将一张图片切分为九宫格样式
+- **预览功能**: 实时预览切分效果
+- **适配社交平台**: 完美适配Instagram等社交媒体的九宫格发布需求
+- **自定义切分**: 支持自定义行列数量的切分
+
+### 4. AI证件照
+
+- **智能抠图**: 自动识别人像并抠出背景
+- **多种规格**: 支持一寸、两寸等多种证件照规格
+- **背景更换**: 提供红、蓝、白等多种背景颜色选择
+- **智能美化**: 自动优化人像效果，提升证件照质量
+
+### 5. AI抠图
+
+- **精准抠图**: 智能识别前景与背景，实现精准抠图
+- **批量处理**: 支持批量图片的抠图处理
+- **透明背景**: 输出带透明背景的PNG图片
+- **边缘优化**: 智能处理抠图边缘，确保效果自然
+
+### 6. 图片大小调整
+
+- **精确调整**: 支持按像素或百分比精确调整图片尺寸
+- **等比缩放**: 智能保持图片比例进行缩放
+- **批量处理**: 支持多张图片同时调整大小
+- **格式转换**: 可在调整大小的同时转换图片格式
+
+## 技术栈
+
+- **框架**: uni-app、Vue 3
+- **状态管理**: Pinia + 持久化存储
+- **UI组件**: wot-design-uni
+- **样式处理**: Tailwind CSS
+- **路由**: uni-mini-router
+- **工具库**: lodash、nanoid、html2canvas等
+- **TypeScript支持**: 全面使用TypeScript提供类型安全
+- **国际化**: vue-i18n多语言支持
+- **构建工具**: Vite
+
+## 安装与使用
+
+### 环境要求
+
+- Node.js 16+
+- pnpm 8+（推荐）
+
+### 安装依赖
+
+```bash
+# 使用 pnpm 安装依赖
+pnpm install
 ```
 
-### 基本用法
+### 开发运行
 
-```vue
-<template>
-  <view class="container">
-    <draggable-grid 
-      :items="gridItems" 
-      :columns="3" 
-      :gap="10"
-      @items-reordered="onItemsReordered"
-    >
-      <template v-slot="{ item }">
-        <view class="grid-item-content">{{ item.text }}</view>
-      </template>
-    </draggable-grid>
-  </view>
-</template>
+```bash
+# 运行到H5
+pnpm dev:h5
 
-<script>
-export default {
-  data() {
-    return {
-      gridItems: [
-        { id: 1, text: '项目1' },
-        { id: 2, text: '项目2' },
-        { id: 3, text: '项目3' },
-        // ...更多项目
-      ]
-    };
-  },
-  methods: {
-    onItemsReordered(newItems) {
-      // 更新数据源
-      this.gridItems = newItems;
-      console.log('Items have been reordered:', newItems);
-    }
-  }
-}
-</script>
+# 运行到微信小程序
+pnpm dev:mp-weixin
+
+# 运行到其他平台
+pnpm dev:mp-[平台名称]
 ```
 
-## 属性说明
+### 构建发布
 
-| 属性名   | 类型   | 默认值 | 说明           |
-|---------|--------|-------|---------------|
-| items   | Array  | []    | 网格数据项      |
-| columns | Number | 3     | 每行显示的列数   |
-| gap     | Number | 10    | 网格元素间距(px) |
+```bash
+# 构建H5版本
+pnpm build:h5
 
-## 事件
+# 构建微信小程序版本
+pnpm build:mp-weixin
 
-| 事件名          | 参数           | 说明                 |
-|----------------|---------------|---------------------|
-| items-reordered | Array (新的数据项顺序) | 当项目位置发生变化时触发 |
+# 构建其他平台版本
+pnpm build:mp-[平台名称]
+```
 
-## 实现原理
+## 项目结构
 
-1. 通过 `uni.createSelectorQuery()` 获取每个元素的位置和尺寸信息
-2. 在拖动过程中实时计算拖动元素与其他元素的重叠面积
-3. 计算重叠面积占拖动元素总面积的百分比
-4. 当重叠百分比超过30%且手指松开时，交换两个元素的位置
+```
+src/
+├── components/    # 组件目录
+├── constant/      # 常量定义
+├── dict/          # 数据字典
+├── enum/          # 枚举定义
+├── hooks/         # 自定义钩子
+├── http/          # 网络请求相关
+├── layouts/       # 布局组件
+├── pages/         # 页面目录
+│   ├── home/      # 首页
+│   ├── photo/     # 图片处理
+│   ├── puzzle/    # 拼图功能
+│   ├── sudoku/    # 九宫格切分
+│   ├── photoGenerate/ # AI证件照
+│   ├── tool/      # 工具页面
+│   └── user/      # 用户页面
+├── services/      # API服务
+├── static/        # 静态资源
+├── store/         # Pinia状态管理
+└── utils/         # 工具函数
+```
 
-## 注意事项
+## 界面预览
 
-1. 确保每个数据项都有唯一的id属性，用于Vue的key绑定
-2. 组件内部会深拷贝传入的items数组，避免直接修改props
-3. 使用items-reordered事件来获取重新排序后的数据
+*此处可添加应用截图*
+
+## 贡献指南
+
+1. Fork 本仓库
+2. 创建你的特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交你的更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 开启一个 Pull Request
+
+## 许可证
+
+本项目采用 MIT 许可证 - 详情见 [LICENSE](LICENSE) 文件
+
+## 联系方式
+
+如有任何问题或建议，欢迎通过 Issues 或 Pull Requests 与我们交流。
+
+## 致谢
+
+感谢所有为本项目做出贡献的开发者！
+
+## 特别说明
+
+本项目仅供学习和参考，请勿用于商业用途。使用本项目时，请遵守相关法律法规和平台规则。

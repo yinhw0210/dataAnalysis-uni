@@ -28,6 +28,13 @@ class PhotoService {
       data,
     });
   }
+
+  image_size_modify(data: API.Photo.ImageSizeModifyParams) {
+    return httpClient.post<API.Photo.ImageSizeModifyResult>("/idphoto/resize", {
+      name: "图片大小修改",
+      data,
+    });
+  }
 }
 
 export default new PhotoService()

@@ -1,14 +1,6 @@
 {
   "pages": [
     {
-      "path": "pages/home/index",
-      "type": "home",
-      "layout": "main",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/tool/index",
       "type": "home",
       "layout": "main",
@@ -24,8 +16,23 @@
       }
     },
     {
+      "path": "pages/photoDispose/index",
+      "type": "home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/photo/photo",
       "type": "home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/home/index",
+      "type": "home",
+      "layout": "main",
       "style": {
         "navigationStyle": "custom"
       }

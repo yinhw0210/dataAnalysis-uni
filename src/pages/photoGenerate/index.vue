@@ -20,6 +20,8 @@ const key = ref<string>("1");
 
 const color = ref<string>("#4D9DE0");
 
+const preColor = ref<string>("#4D9DE0");
+
 const isHd = ref<boolean>(true);
 
 const show = ref<boolean>(false);
@@ -51,13 +53,6 @@ onLoad((options) => {
   handleInit();
 });
 
-const isWaiting = ref<boolean>(false);
-
-const cacheType = ref<string>("1");
-
-// 顶部声明
-const pollInterval = ref<number | null>(null);
-
 const localImage = computed(() => {
   return isHd.value ? generateImage.cutout_hd : generateImage.cutout;
 });
@@ -85,27 +80,30 @@ const keyInfo = computed(() => {
   return PHOTO_SIZE_LIST.find((item) => item.key === key.value);
 });
 
-const { run: runAddBackground, loading: addBackgroundLoading } = useRequest(
-  async (params: API.Photo.AddBackgroundParams) =>
+const { run: runAddBackground } = useRequest(
+  async (params: API.Photo.AddBackgroundParams & { callback: boolean }) =>
     await photoService.add_background(params),
   {
-    onSuccess: (result) => {
+    onSuccess: (result, [params]) => {
+      const { callback } = params;
+      if (callback) {
+        runLayout({
+          input_image_base64: result.image_base64,
+          width: keyInfo.value.size.width,
+          height: keyInfo.value.size.height,
+        });
+      }
       if (isHd.value) {
         generateImage.hd = result.image_base64;
       } else {
         generateImage.standard = result.image_base64;
       }
-      runLayout({
-        input_image_base64: result.image_base64,
-        width: keyInfo.value.size.width,
-        height: keyInfo.value.size.height,
-      });
     },
     manual: true,
   }
 );
 
-const { run: runLayout, loading: layoutLoading } = useRequest(
+const { run: runLayout } = useRequest(
   async (params: API.Photo.GenerateLayoutPhotosParams) =>
     await photoService.generate_layout_photos(params),
   {
@@ -143,33 +141,11 @@ const handleCutout = async (params: API.Photo.CreateParams) => {
   runAddBackground({
     input_image_base64: result.image_base64_hd,
     color: color.value,
+    callback: true,
   });
 };
 
-const handleSave = async (type: string) => {
-  if (addBackgroundLoading.value || layoutLoading.value) {
-    isWaiting.value = true;
-    cacheType.value = type;
-    uni.showToast({
-      title: "生成中...",
-      icon: "none",
-    });
-    return;
-  }
-  uni.showLoading({
-    title: "保存中...",
-    mask: true,
-  });
-  let base64 = "";
-  if (type === "1") {
-    base64 = generateImage.layout;
-  } else {
-    if (isHd.value) {
-      base64 = generateImage.hd;
-    } else {
-      base64 = generateImage.standard;
-    }
-  }
+const handleSaveBase64 = async (base64: string) => {
   const tempFilePath = await base64ToTempFilePath(base64);
   uni.saveImageToPhotosAlbum({
     filePath: tempFilePath,
@@ -191,54 +167,49 @@ const handleSave = async (type: string) => {
   });
 };
 
-const onHandleColor = (value: string) => {
-  color.value = value;
+const handleSave = async (type: string) => {
+  uni.showToast({
+    title: "合成中...",
+    mask: true,
+  });
   const imageBase64 = isHd.value
     ? generateImage.cutout_hd
     : generateImage.cutout;
-  // 生成带颜色的证件照
-  runAddBackground({
+  const result = await runAddBackground({
     input_image_base64: imageBase64,
-    color: value,
+    color: color.value,
+    callback: false,
   });
+  if (type === "1") {
+    handleSaveBase64(generateImage.layout);
+  } else {
+    handleSaveBase64(result.image_base64);
+  }
 };
 
-// 修改后的 watch
-watch(
-  () => isWaiting.value,
-  (value) => {
-    if (value) {
-      // 清理旧定时器
-      if (pollInterval.value !== null) {
-        clearInterval(pollInterval.value)
-        pollInterval.value = null
-      }
-      
-      // 创建新定时器
-      pollInterval.value = setInterval(() => {
-        // 完成时关闭轮询
-        if (!addBackgroundLoading.value && !layoutLoading.value) {
-          isWaiting.value = false
-        }
-      }, 500)
-    } else {
-      // 确保清除定时器
-      if (pollInterval.value !== null) {
-        clearInterval(pollInterval.value)
-        pollInterval.value = null
-      }
-      handleSave(cacheType.value)
-    }
-  }
-)
+const onHandleColor = (value: string) => {
+  preColor.value = color.value;
+  color.value = value;
+};
 
-// 添加卸载钩子
-onUnmounted(() => {
-  if (pollInterval.value) {
-    clearInterval(pollInterval.value)
-    pollInterval.value = null
+const handleTab = async (value: string) => {
+  if (value === "2" && preColor.value !== color.value) {
+    uni.showLoading({
+      title: "合成中...",
+      mask: true,
+    });
+    await runAddBackground({
+      input_image_base64: isHd.value ? generateImage.cutout_hd : generateImage.cutout,
+      color: color.value,
+      callback: true,
+    });
+    preColor.value = color.value;
+    uni.hideLoading();
+    activeTab.value = value;
+  } else {
+    activeTab.value = value;
   }
-})
+};
 </script>
 <template>
   <div
@@ -261,14 +232,14 @@ onUnmounted(() => {
         <div
           class="flex justify-center items-center"
           :class="{ 'text-[#2977ff]': activeTab === '1' }"
-          @click="activeTab = '1'"
+          @click="handleTab('1')"
         >
           电子照片
         </div>
         <div
           class="flex justify-center items-center"
           :class="{ 'text-[#2977ff]': activeTab === '2' }"
-          @click="activeTab = '2'"
+          @click="handleTab('2')"
         >
           排版照片
         </div>

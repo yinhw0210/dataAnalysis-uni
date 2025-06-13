@@ -6,8 +6,12 @@
 }
 </route>
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { PHOTO_SIZE_LIST } from "@/constant/photo";
+import { DisposeTypeEnum } from "@/enum";
+import { usePhotoStore } from "@/store/modules/photo";
+
+const photoStore = usePhotoStore();
 
 const statusBarHeight = computed(() => {
   return uni.getSystemInfoSync().statusBarHeight ?? 0;
@@ -30,6 +34,21 @@ const handleClick = (key: string) => {
   });
 };
 
+const onHandleCutout = (type: DisposeTypeEnum) => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ["original", "compressed"],
+    sourceType: ["album"],
+    success: (res) => {
+      const kb = res.tempFiles[0].size / 1024;
+      photoStore.setUrl(res.tempFilePaths[0]);
+      photoStore.setKb(kb);
+      uni.navigateTo({
+        url: `/pages/photoDispose/index?type=${type}`,
+      });
+    },
+  });
+};
 </script>
 <template>
   <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
@@ -49,8 +68,7 @@ const handleClick = (key: string) => {
           >
             <img
               src="https://img.picui.cn/free/2025/06/04/683fc00022f41.png"
-              mode="heightFix"
-              class="h-[300rpx]"
+              class="h-[300rpx] w-[212rpx]"
               alt=""
             />
             <div class="text-center text-[28rpx] mt-[8rpx]">
@@ -61,18 +79,28 @@ const handleClick = (key: string) => {
           <div
             class="shadow-md bg-white rounded-[24rpx]"
             :style="{
-              backgroundImage: `url('https://img.picui.cn/free/2025/06/06/68424f9b3564e.png')`,
-              backgroundSize: '100%',
-              backgroundPosition: 'center',
-            }"
-          ></div>
-          <div
-            class="shadow-md bg-white rounded-[24rpx]"
-            :style="{
               backgroundImage: `url('https://img.picui.cn/free/2025/06/06/68424b2e99868.png')`,
               backgroundSize: '100%',
               backgroundPosition: 'center',
             }"
+            @click="
+              () => {
+                onHandleCutout(DisposeTypeEnum.CUTOUT);
+              }
+            "
+          ></div>
+          <div
+            class="shadow-md bg-white rounded-[24rpx]"
+            :style="{
+              backgroundImage: `url('https://img.picui.cn/free/2025/06/12/684a9a2d6f503.png')`,
+              backgroundSize: '100%',
+              backgroundPosition: 'center',
+            }"
+            @click="
+              () => {
+                onHandleCutout(DisposeTypeEnum.IMAGE_SIZE_MODIFY);
+              }
+            "
           ></div>
         </div>
         <div

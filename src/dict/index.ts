@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import userDict from './components/user'
 import puzzleDict from './components/puzzle'
+import photoDict from './components/photo'
 interface DictOptions {
   [key: string]: string
 }
@@ -8,6 +9,7 @@ interface DictOptions {
 export const dictInfo = {
   ...userDict,
   ...puzzleDict,
+  ...photoDict,
 }
 
 /**
@@ -17,7 +19,7 @@ export const dictInfo = {
  * @param valueKey 值的键名
  * @returns 字典信息
  */
-export function getDictInfo(
+export function getDictInfo<DictOptions>(
   options: DictOptions[],
   value: any,
   valueKey?: string,
@@ -28,5 +30,8 @@ export function getDictInfo(
 
   const result = cloneOptions.find(option => option[cloneValueKey] === value)
 
-  return result ?? '--'
+  return result ?? {
+    label: '--',
+    value: '--'
+  }
 }
