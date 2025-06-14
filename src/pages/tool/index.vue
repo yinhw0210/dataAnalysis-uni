@@ -35,9 +35,9 @@ const info = [
     path: "sudoku",
   },
   {
-    label: "AI证件照",
+    label: "智能证件照",
     icon: "https://img.picui.cn/free/2025/05/23/683009e039ee6.png",
-    desc: "AI一键生成证件照",
+    desc: "一键生成证件照",
     key: "3",
     iconColor: "#8378f7",
   },
