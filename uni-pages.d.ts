@@ -5,6 +5,7 @@
 
 interface NavigateToOptions {
   url: "/pages/tool/index" |
+       "/pages/remove/index" |
        "/pages/photoGenerate/index" |
        "/pages/photoDispose/index" |
        "/pages/photo/photo" |

@@ -13,6 +13,8 @@ import { nanoid } from "nanoid/non-secure";
 const puzzleStore = usePuzzleStore();
 import { useSudokuStore } from "@/store/modules/sudoku";
 const sudokuStore = useSudokuStore();
+import { useRemoveStore } from "@/store/modules/remove";
+const removeStore = useRemoveStore();
 import { useToast } from "wot-design-uni";
 
 const toast = useToast();
@@ -42,9 +44,9 @@ const info = [
     iconColor: "#8378f7",
   },
   {
-    label: "拼长图",
+    label: "智能消除",
     icon: "https://img.picui.cn/free/2025/05/23/683009e03b375.png",
-    desc: "多张图片合成一张长图",
+    desc: "涂抹消除，一键去除图片中不需要的元素",
     key: "4",
     iconColor: "#396be5",
   },
@@ -61,13 +63,6 @@ const navBarHeight = computed(() => {
 });
 
 const handleClick = (item: any) => {
-  if (item.key === "4") {
-    uni.showToast({
-      title: "功能内测中，敬请期待",
-      icon: "none",
-    });
-    return;
-  }
   if (item.key === "3") {
     uni.navigateTo({ url: `/pages/photo/photo` });
     return;
@@ -133,6 +128,10 @@ const handleClick = (item: any) => {
         if (item.key === "2") {
           sudokuStore.setSudokuInfo(mediaInfoList[0]);
           uni.navigateTo({ url: `/pages/sudoku/${item.path}` });
+        }
+        if (item.key === "4") {
+          removeStore.setImageInfo(mediaInfoList[0]);
+          uni.navigateTo({ url: `/pages/remove/index` });
         }
       } catch (error) {
         console.error("处理图片信息时出错:", error);
