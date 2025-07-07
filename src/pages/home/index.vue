@@ -11,7 +11,9 @@ import { computed, ref } from "vue";
 import useRequest from "@/hooks/useRequest";
 import AnalyzeResult from "@/components/Home/AnalyzeResult/index.vue";
 import analyzeService from "@/services/analyzeService";
-import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
+import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app";
+import { trackEvent } from "@/utils/user";
+import { SourcePlatformEnum, TrackTypeEnum } from "@/enum";
 
 const value = ref("");
 const statusBarHeight = computed(() => {
@@ -50,6 +52,14 @@ const onHandleAnalyze = async () => {
   uni.showLoading({
     title: "解析中...",
   });
+  trackEvent({
+    user_id: 1,
+    source_platform: SourcePlatformEnum.MINI_PROGRAM,
+    event_type: TrackTypeEnum.PARSE,
+    event_params: {
+      url: value.value,
+    },
+  });
   run();
 };
 
@@ -61,14 +71,13 @@ onShareAppMessage(() => {
   };
 });
 
-onShareTimeline(() => { 
+onShareTimeline(() => {
   return {
     title: "免费去水印，多平台短视频、图片一键去水印。",
     path: "/pages/home/index",
     imageUrl: "https://img.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
   };
-})
-
+});
 </script>
 <template>
   <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">

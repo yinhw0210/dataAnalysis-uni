@@ -16,6 +16,8 @@ const sudokuStore = useSudokuStore();
 import { useRemoveStore } from "@/store/modules/remove";
 const removeStore = useRemoveStore();
 import { useToast } from "wot-design-uni";
+import { trackEvent } from "@/utils/user";
+import { SourcePlatformEnum, TrackTypeEnum } from "@/enum";
 
 const toast = useToast();
 
@@ -64,6 +66,12 @@ const navBarHeight = computed(() => {
 
 const handleClick = (item: any) => {
   if (item.key === "3") {
+    trackEvent({
+      user_id: 1,
+      source_platform: SourcePlatformEnum.MINI_PROGRAM,
+      event_type: TrackTypeEnum.ID_CARD,
+      event_params: {},
+    });
     uni.navigateTo({ url: `/pages/photo/photo` });
     return;
   }
@@ -122,14 +130,32 @@ const handleClick = (item: any) => {
         // 其中 "item.path" 需要替换为实际的页面路径
         if (item.key === "1") {
           // 确保图像信息已获取完毕后再进行后续操作
+          trackEvent({
+            user_id: 1,
+            source_platform: SourcePlatformEnum.MINI_PROGRAM,
+            event_type: TrackTypeEnum.PUZZLE,
+            event_params: {},
+          });
           puzzleStore.setImageList(mediaInfoList);
           uni.navigateTo({ url: `/pages/puzzle/${item.path}` });
         }
         if (item.key === "2") {
+          trackEvent({
+            user_id: 1,
+            source_platform: SourcePlatformEnum.MINI_PROGRAM,
+            event_type: TrackTypeEnum.CROP,
+            event_params: {},
+          });
           sudokuStore.setSudokuInfo(mediaInfoList[0]);
           uni.navigateTo({ url: `/pages/sudoku/${item.path}` });
         }
         if (item.key === "4") {
+          trackEvent({
+            user_id: 1,
+            source_platform: SourcePlatformEnum.MINI_PROGRAM,
+            event_type: TrackTypeEnum.SMART_REMOVE,
+            event_params: {},
+          });
           removeStore.setImageInfo(mediaInfoList[0]);
           uni.navigateTo({ url: `/pages/remove/index` });
         }
