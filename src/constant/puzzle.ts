@@ -15,12 +15,12 @@ export const PUZZLE_ADVANCED_EDIT_OPTIONS_LIST = [
     {
         key: '1',
         label: '相框',
-        icon: 'https://img.picui.cn/free/2025/05/21/682db6d0efb8c.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682db6d0efb8c.png'
     },
     {
         key: '2',
         label: '文字',
-        icon: 'https://img.picui.cn/free/2025/05/21/682db6d104980.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682db6d104980.png'
     },
 ]
 export const PUZZLE_OPTIONS_LIST = [
@@ -28,50 +28,50 @@ export const PUZZLE_OPTIONS_LIST = [
         key: '1',
         label: '滤镜',
         hide: true,
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f17c5619.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f17c5619.png'
     },
     {
         key: '2',
         label: '替换',
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f17909ef.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f17909ef.png'
     },
     {
         key: '3',
         label: '编辑',
         scale: 0.88,
         hide: true,
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f17b056d.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f17b056d.png'
     },
     {
         key: '4',
         label: '旋转90°',
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f1789c02.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f1789c02.png'
     },
     {
         key: '5',
         label: '水平翻转',
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f1a75aec.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f1a75aec.png'
     },
     {
         key: '6',
         label: '垂直翻转',
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f1a4bf29.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f1a4bf29.png'
     },
     {
         key: '7',
         label: '透明度',
         scale: 0.88,
-        icon: 'https://img.picui.cn/free/2025/05/21/682d6f179a551.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d6f179a551.png'
     },
     {
         key: '8',
         label: '放大',
-        icon: 'https://img.picui.cn/free/2025/05/21/682d9dd588c25.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d9dd588c25.png'
     },
     {
         key: '9',
         label: '缩小',
-        icon: 'https://img.picui.cn/free/2025/05/21/682d9dd59002b.png'
+        icon: 'https://free.picui.cn/free/2025/05/21/682d9dd59002b.png'
     }
 ]
 

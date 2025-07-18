@@ -67,7 +67,7 @@ onShareAppMessage(() => {
   return {
     title: "免费去水印，多平台短视频、图片一键去水印。",
     path: "/pages/home/index",
-    imageUrl: "https://img.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
+    imageUrl: "https://free.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
   };
 });
 
@@ -75,7 +75,7 @@ onShareTimeline(() => {
   return {
     title: "免费去水印，多平台短视频、图片一键去水印。",
     path: "/pages/home/index",
-    imageUrl: "https://img.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
+    imageUrl: "https://free.picui.cn/free/2025/04/20/6804ab7e87ee1.png",
   };
 });
 </script>
@@ -162,7 +162,7 @@ onShareTimeline(() => {
 .home-container {
   width: 100%;
   height: 100%;
-  background: url(https://img.picui.cn/free/2025/04/10/67f766cbd157b.png)
+  background: url(https://free.picui.cn/free/2025/04/10/67f766cbd157b.png)
     no-repeat center center;
   background-size: cover;
   :deep(.input-box) {

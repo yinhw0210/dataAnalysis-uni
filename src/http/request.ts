@@ -9,7 +9,7 @@ export type CustomRequestOptions = UniApp.RequestOptions & {
   name?: string;
 };
 
-const timeout = 30000; // 请求超时时间
+const timeout = 300000; // 请求超时时间
 const baseUrl = (import.meta as any).env.VITE_SERVER_BASEURL; // 请求基础路径
 
 // 拦截器配置

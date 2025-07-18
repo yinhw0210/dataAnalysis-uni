@@ -983,7 +983,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
         @click="onHandleAdvancedEditExpand"
       >
         <image
-          src="https://img.picui.cn/free/2025/05/21/682db2dceb5d6.png"
+          src="https://free.picui.cn/free/2025/05/21/682db2dceb5d6.png"
           class="size-[24rpx]"
         />
         <div class="text-[24rpx]">高级编辑</div>

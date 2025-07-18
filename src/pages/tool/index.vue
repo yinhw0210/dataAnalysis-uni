@@ -24,7 +24,7 @@ const toast = useToast();
 const info = [
   {
     label: "排版拼图",
-    icon: "https://img.picui.cn/free/2025/05/23/683009e0409b9.png",
+    icon: "https://free.picui.cn/free/2025/05/23/683009e0409b9.png",
     desc: "多张图片一键合成任意模板",
     key: "1",
     iconColor: "#72b8f9",
@@ -32,7 +32,7 @@ const info = [
   },
   {
     label: "切分九宫格",
-    icon: "https://img.picui.cn/free/2025/05/23/683009e03ea99.png",
+    icon: "https://free.picui.cn/free/2025/05/23/683009e03ea99.png",
     desc: "一张图片分割多张",
     key: "2",
     iconColor: "#7fd6fb",
@@ -40,14 +40,14 @@ const info = [
   },
   {
     label: "智能证件照",
-    icon: "https://img.picui.cn/free/2025/05/23/683009e039ee6.png",
+    icon: "https://free.picui.cn/free/2025/05/23/683009e039ee6.png",
     desc: "一键生成证件照",
     key: "3",
     iconColor: "#8378f7",
   },
   {
     label: "智能消除",
-    icon: "https://img.picui.cn/free/2025/05/23/683009e03b375.png",
+    icon: "https://free.picui.cn/free/2025/05/23/683009e03b375.png",
     desc: "涂抹消除，一键去除图片中不需要的元素",
     key: "4",
     iconColor: "#396be5",
@@ -211,7 +211,7 @@ const handleClick = (item: any) => {
 .home-container {
   width: 100%;
   height: 100%;
-  background: url(https://img.picui.cn/free/2025/05/19/682af2cb250dd.png)
+  background: url(https://free.picui.cn/free/2025/05/19/682af2cb250dd.png)
     no-repeat top center;
   background-size: contain;
   position: relative;

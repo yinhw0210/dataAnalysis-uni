@@ -67,7 +67,7 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
             @click="handleClick('1')"
           >
             <img
-              src="https://img.picui.cn/free/2025/06/04/683fc00022f41.png"
+              src="https://free.picui.cn/free/2025/06/04/683fc00022f41.png"
               class="h-[300rpx] w-[212rpx]"
               alt=""
             />
@@ -79,7 +79,7 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
           <div
             class="shadow-md bg-white rounded-[24rpx]"
             :style="{
-              backgroundImage: `url('https://img.picui.cn/free/2025/06/06/68424b2e99868.png')`,
+              backgroundImage: `url('https://free.picui.cn/free/2025/06/06/68424b2e99868.png')`,
               backgroundSize: '100%',
               backgroundPosition: 'center',
             }"
@@ -92,7 +92,7 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
           <div
             class="shadow-md bg-white rounded-[24rpx]"
             :style="{
-              backgroundImage: `url('https://img.picui.cn/free/2025/06/12/684a9a2d6f503.png')`,
+              backgroundImage: `url('https://free.picui.cn/free/2025/06/12/684a9a2d6f503.png')`,
               backgroundSize: '100%',
               backgroundPosition: 'center',
             }"
@@ -135,7 +135,7 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
 .home-container {
   width: 100%;
   height: 100%;
-  background: url(https://img.picui.cn/free/2025/05/27/68352d8cdbf3a.png)
+  background: url(https://free.picui.cn/free/2025/05/27/68352d8cdbf3a.png)
     no-repeat;
   background-size: contain;
 }
