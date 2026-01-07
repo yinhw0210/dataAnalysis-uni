@@ -7,7 +7,9 @@
 </route>
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import doubaoService, { type DoubaoExtractResult } from "@/services/doubaoService";
+import doubaoService, {
+  type DoubaoExtractResult,
+} from "@/services/doubaoService";
 import { base64ToTempFilePath } from "@/utils";
 
 const shareUrl = ref("");
@@ -51,7 +53,7 @@ const handleExtract = async () => {
   try {
     const result = await doubaoService.extract(shareUrl.value.trim());
     extractResult.value = result;
-    
+
     if (result.image_count === 0) {
       uni.showToast({ title: "未找到图片", icon: "none" });
     }
@@ -64,15 +66,18 @@ const handleExtract = async () => {
 
 const handleDownload = async (image: DoubaoExtractResult["images"][0]) => {
   if (downloadingIds.value.has(image.id)) return;
-  
+
   downloadingIds.value.add(image.id);
-  
+
   try {
     uni.showLoading({ title: "下载中..." });
-    
-    const result = await doubaoService.download(image.original_url, `doubao_${image.id}.png`);
+
+    const result = await doubaoService.download(
+      image.original_url,
+      `doubao_${image.id}.png`
+    );
     const tempFilePath = await base64ToTempFilePath(result.image_base64);
-    
+
     uni.saveImageToPhotosAlbum({
       filePath: tempFilePath,
       success: () => {
@@ -92,7 +97,7 @@ const handleDownload = async (image: DoubaoExtractResult["images"][0]) => {
 
 const handleDownloadAll = async () => {
   if (!extractResult.value?.images.length) return;
-  
+
   for (const image of extractResult.value.images) {
     await handleDownload(image);
   }
@@ -102,7 +107,7 @@ const handlePreview = (url: string) => {
   if (!extractResult.value) return;
   uni.previewImage({
     current: url,
-    urls: extractResult.value.images.map(i => i.original_url),
+    urls: extractResult.value.images.map((i) => i.original_url),
   });
 };
 
@@ -123,151 +128,302 @@ const handlePaste = () => {
 };
 </script>
 <template>
-  <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
+  <div class="doubao-container" :style="{ paddingTop: `${statusBarHeight}px` }">
     <!-- 导航栏 -->
     <div
-      class="flex items-center justify-between px-[24rpx]"
+      class="flex items-center justify-between px-[24rpx] z-10 relative"
       :style="{ height: `${navBarHeight}px` }"
     >
       <div class="w-[60rpx] flex items-center" @click="handleBack">
-        <wd-icon name="arrow-left" size="20px" color="#333"></wd-icon>
+        <div
+          class="w-[60rpx] h-[60rpx] rounded-full flex items-center justify-center bg-white/20 backdrop-blur-md active:scale-95 transition-all"
+        >
+          <wd-icon name="arrow-left" size="20px" color="#1e293b"></wd-icon>
+        </div>
       </div>
-      <div class="text-[34rpx] font-bold text-[#333]">豆包去水印</div>
+      <div class="text-[34rpx] font-bold text-[#1e293b]">豆包 AI 去水印</div>
       <div class="w-[60rpx]"></div>
     </div>
 
     <!-- 内容区域 -->
     <div
-      class="flex flex-col px-[24rpx] overflow-y-auto"
+      class="flex flex-col px-[32rpx] overflow-y-auto relative z-10"
       :style="{ height: contentHeight }"
     >
       <!-- 输入卡片 -->
-      <div class="bg-white rounded-[20rpx] p-[28rpx] mb-[24rpx] shadow-sm">
-        <div class="flex items-center mb-[24rpx]">
+      <div
+        class="glass-card p-[32rpx] mb-[32rpx] mt-[20rpx] animate-fade-in-up"
+      >
+        <div class="flex items-center mb-[32rpx]">
           <div
-            class="w-[72rpx] h-[72rpx] rounded-[16rpx] flex items-center justify-center mr-[20rpx]"
-            style="background: linear-gradient(135deg, #e8f3ff 0%, #d4e8ff 100%)"
+            class="w-[88rpx] h-[88rpx] rounded-[24rpx] flex items-center justify-center mr-[24rpx] shadow-lg"
+            style="
+              background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            "
           >
-            <image src="https://cdn.simpleicons.org/bytedance/3C8CFF" class="w-[40rpx] h-[40rpx]" mode="aspectFit" />
+            <image
+              src="https://cdn.simpleicons.org/bytedance/FFFFFF"
+              class="w-[48rpx] h-[48rpx]"
+              mode="aspectFit"
+            />
           </div>
           <div class="flex-1">
-            <div class="text-[30rpx] font-bold text-[#333] mb-[4rpx]">豆包AI图片提取</div>
-            <div class="text-[24rpx] text-[#999]">粘贴分享链接，一键获取无水印原图</div>
+            <div class="text-[32rpx] font-bold text-[#1e293b] mb-[4rpx]">
+              图片提取
+            </div>
+            <div class="text-[26rpx] text-[#64748b]">
+              获取 AI生成图片无水印原图
+            </div>
           </div>
         </div>
 
-        <div class="relative mb-[20rpx]">
-          <textarea
+        <div class="relative w-full mb-[32rpx]">
+          <wd-input
+            type="text"
+            custom-class="premium-input"
+            :no-border="true"
             v-model="shareUrl"
-            class="w-full h-[140rpx] bg-[#f8fafc] border-[2rpx] border-[#e8f0fe] rounded-[12rpx] p-[20rpx] text-[28rpx] text-[#333]"
-            placeholder="请粘贴豆包分享链接"
-            :maxlength="500"
+            placeholder="请粘贴豆包分享链接..."
           />
-          <div class="absolute right-[12rpx] bottom-[12rpx] flex items-center">
+          <div
+            class="absolute right-[16rpx] top-1/2 -translate-y-1/2 flex items-center gap-[12rpx]"
+          >
             <div
-              class="px-[20rpx] py-[10rpx] rounded-[20rpx] bg-[#f0f7ff] text-[24rpx] text-[#3C8CFF]"
+              v-if="shareUrl"
+              class="w-[48rpx] h-[48rpx] rounded-full bg-gray-100 flex items-center justify-center active:scale-95"
+              @click="handleClear"
+            >
+              <wd-icon name="close" size="14px" color="#94a3b8"></wd-icon>
+            </div>
+            <div
+              class="text-[#3b82f6] text-[26rpx] font-medium py-[8rpx] px-[16rpx] bg-[#eff6ff] rounded-[12rpx] active:scale-95"
               @click="handlePaste"
             >
               粘贴
-            </div>
-            <div
-              v-if="shareUrl"
-              class="ml-[12rpx] px-[14rpx] py-[10rpx] rounded-[20rpx] bg-[#f5f5f5]"
-              @click="handleClear"
-            >
-              <wd-icon name="close" size="14px" color="#999"></wd-icon>
             </div>
           </div>
         </div>
 
         <div
-          class="w-full h-[88rpx] rounded-[44rpx] flex items-center justify-center"
-          style="background: linear-gradient(135deg, #3C8CFF 0%, #5B9FFF 100%)"
-          :style="{ opacity: (!shareUrl.trim() || isLoading) ? 0.5 : 1 }"
+          class="w-full h-[96rpx] rounded-[24rpx] flex items-center justify-center shadow-lg transition-all active:scale-95"
+          style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)"
+          :style="{ opacity: !shareUrl.trim() || isLoading ? 0.6 : 1 }"
           @click="handleExtract"
         >
-          <span class="text-white text-[30rpx] font-medium">{{ isLoading ? '提取中...' : '开始提取' }}</span>
+          <wd-icon
+            v-if="isLoading"
+            name="loading"
+            size="20px"
+            color="#fff"
+            class="animate-spin mr-[12rpx]"
+          ></wd-icon>
+          <span class="text-white text-[32rpx] font-bold">{{
+            isLoading ? "正在提取..." : "一键提取"
+          }}</span>
         </div>
       </div>
 
       <!-- 结果区域 -->
       <template v-if="extractResult?.images?.length">
-        <div class="flex items-center justify-between mb-[20rpx]">
-          <div class="text-[30rpx] font-bold text-[#333]">提取结果 ({{ extractResult.image_count }}张)</div>
+        <div
+          class="flex items-center justify-between mb-[24rpx] animate-fade-in-up"
+          style="animation-delay: 0.1s"
+        >
+          <div class="text-[32rpx] font-bold text-[#1e293b]">
+            提取结果
+            <span class="text-[#64748b] text-[26rpx] font-normal ml-[8rpx]"
+              >{{ extractResult.image_count }}张</span
+            >
+          </div>
           <div
-            class="px-[20rpx] py-[10rpx] rounded-[20rpx] bg-[#f0f7ff] text-[24rpx] text-[#3C8CFF]"
+            class="px-[24rpx] py-[12rpx] rounded-[16rpx] bg-[#eff6ff] text-[26rpx] font-medium text-[#3b82f6] active:scale-95 transition-all"
             @click="handleDownloadAll"
           >
             全部下载
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-[16rpx]">
+        <div
+          class="grid grid-cols-2 gap-[24rpx] animate-fade-in-up"
+          style="animation-delay: 0.2s"
+        >
           <div
-            v-for="image in extractResult.images"
+            v-for="(image, index) in extractResult.images"
             :key="image.id"
-            class="bg-white rounded-[16rpx] overflow-hidden shadow-sm"
+            class="bg-white rounded-[24rpx] overflow-hidden shadow-sm border border-gray-100 group relative"
           >
-            <image
-              :src="image.original_url"
-              mode="aspectFill"
-              class="w-full h-[240rpx]"
+            <div
+              class="relative w-full h-[300rpx]"
               @click="handlePreview(image.original_url)"
-            />
-            <div class="flex items-center justify-between p-[16rpx] bg-[#fafafa]">
-              <span class="text-[22rpx] text-[#999]">{{ image.width }}×{{ image.height }}</span>
+            >
+              <image
+                :src="image.original_url"
+                mode="aspectFill"
+                class="w-full h-full"
+              />
               <div
-                class="w-[48rpx] h-[48rpx] rounded-full flex items-center justify-center"
-                style="background: linear-gradient(135deg, #3C8CFF 0%, #5B9FFF 100%)"
+                class="absolute top-[16rpx] left-[16rpx] backdrop-blur-md bg-black/30 px-[12rpx] py-[6rpx] rounded-[8rpx] text-white text-[20rpx]"
+              >
+                Image {{ index + 1 }}
+              </div>
+            </div>
+
+            <div class="p-[16rpx]">
+              <div class="flex items-center justify-between mb-[16rpx]">
+                <span class="text-[22rpx] text-[#94a3b8] font-medium"
+                  >{{ image.width }} × {{ image.height }}</span
+                >
+              </div>
+              <div
+                class="w-full h-[72rpx] rounded-[16rpx] flex items-center justify-center text-white text-[26rpx] font-medium active:scale-95 transition-all"
+                style="
+                  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                "
                 @click.stop="handleDownload(image)"
               >
-                <wd-icon name="download" size="14px" color="#fff"></wd-icon>
+                下载原图
               </div>
             </div>
           </div>
         </div>
       </template>
 
-      <!-- 空状态 -->
+      <!-- 空状态 / 使用指南 -->
       <template v-else-if="!isLoading">
-        <div class="flex flex-col items-center py-[60rpx]">
-          <div class="text-[28rpx] text-[#999] mb-[40rpx]">粘贴豆包分享链接开始提取</div>
-          <div class="w-full bg-white rounded-[16rpx] p-[28rpx]">
-            <div class="flex items-center mb-[20rpx]">
+        <div
+          class="mt-[40rpx] animate-fade-in-up"
+          style="animation-delay: 0.2s"
+        >
+          <div
+            class="text-[28rpx] text-[#64748b] mb-[32rpx] text-center font-medium"
+          >
+            使用指南
+          </div>
+          <div class="glass-card p-[32rpx] space-y-[40rpx]">
+            <div class="flex items-start">
               <div
-                class="w-[36rpx] h-[36rpx] rounded-full flex items-center justify-center mr-[16rpx] text-white text-[22rpx]"
-                style="background: linear-gradient(135deg, #3C8CFF 0%, #5B9FFF 100%)"
-              >1</div>
-              <span class="text-[26rpx] text-[#666]">打开豆包APP，找到AI生成的图片</span>
+                class="w-[48rpx] h-[48rpx] rounded-full flex items-center justify-center mr-[24rpx] text-white text-[24rpx] font-bold shadow-md shrink-0"
+                style="
+                  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                "
+              >
+                1
+              </div>
+              <div class="flex-1 pt-[4rpx]">
+                <div class="text-[28rpx] text-[#1e293b] font-medium mb-[4rpx]">
+                  打开豆包 APP
+                </div>
+                <div class="text-[24rpx] text-[#94a3b8]">
+                  找到 AI 生成的图片页面
+                </div>
+              </div>
             </div>
-            <div class="flex items-center mb-[20rpx]">
+
+            <div class="flex items-start">
               <div
-                class="w-[36rpx] h-[36rpx] rounded-full flex items-center justify-center mr-[16rpx] text-white text-[22rpx]"
-                style="background: linear-gradient(135deg, #3C8CFF 0%, #5B9FFF 100%)"
-              >2</div>
-              <span class="text-[26rpx] text-[#666]">点击分享，复制链接</span>
+                class="w-[48rpx] h-[48rpx] rounded-full flex items-center justify-center mr-[24rpx] text-white text-[24rpx] font-bold shadow-md shrink-0"
+                style="
+                  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                "
+              >
+                2
+              </div>
+              <div class="flex-1 pt-[4rpx]">
+                <div class="text-[28rpx] text-[#1e293b] font-medium mb-[4rpx]">
+                  复制分享链接
+                </div>
+                <div class="text-[24rpx] text-[#94a3b8]">
+                  点击分享按钮，选择"复制链接"
+                </div>
+              </div>
             </div>
-            <div class="flex items-center">
+
+            <div class="flex items-start">
               <div
-                class="w-[36rpx] h-[36rpx] rounded-full flex items-center justify-center mr-[16rpx] text-white text-[22rpx]"
-                style="background: linear-gradient(135deg, #3C8CFF 0%, #5B9FFF 100%)"
-              >3</div>
-              <span class="text-[26rpx] text-[#666]">粘贴到上方输入框，点击提取</span>
+                class="w-[48rpx] h-[48rpx] rounded-full flex items-center justify-center mr-[24rpx] text-white text-[24rpx] font-bold shadow-md shrink-0"
+                style="
+                  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                "
+              >
+                3
+              </div>
+              <div class="flex-1 pt-[4rpx]">
+                <div class="text-[28rpx] text-[#1e293b] font-medium mb-[4rpx]">
+                  粘贴并提取
+                </div>
+                <div class="text-[24rpx] text-[#94a3b8]">
+                  返回本页面粘贴链接，点击一键提取
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </template>
     </div>
+
+    <!-- Background Gradients -->
+    <div
+      class="absolute top-0 right-0 w-[500rpx] h-[500rpx] bg-[#eff6ff] rounded-full blur-[80rpx] -z-10 opacity-60"
+    ></div>
+    <div
+      class="absolute bottom-[200rpx] left-[-100rpx] w-[400rpx] h-[400rpx] bg-[#f0f9ff] rounded-full blur-[100rpx] -z-10 opacity-50"
+    ></div>
   </div>
 </template>
 <style lang="scss" scoped>
-.home-container {
+.doubao-container {
   width: 100%;
   height: 100vh;
-  background: linear-gradient(180deg, #f0f7ff 0%, #f5f7fa 30%);
+  background: #f8fafc;
+  position: relative;
+  overflow: hidden;
 }
 
-.shadow-sm {
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-radius: 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(148, 163, 184, 0.1);
+}
+
+:deep(.premium-input) {
+  width: 100%;
+  height: 100rpx;
+  background: #f1f5f9;
+  border-radius: 20rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: #1e293b;
+  transition: all 0.3s ease;
+
+  &.wd-input__inner:focus {
+    background: #fff;
+    box-shadow: 0 0 0 4rpx rgba(59, 130, 246, 0.2);
+  }
+
+  .wd-input__body {
+    height: 100%;
+    background: transparent;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shadow-lg {
+  box-shadow: 0 10rpx 25rpx -5rpx rgba(59, 130, 246, 0.4);
 }
 </style>

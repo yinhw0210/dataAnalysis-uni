@@ -21,36 +21,36 @@ const tools = [
   {
     label: "排版拼图",
     iconName: "image",
-    desc: "多张图片一键合成任意模板",
+    desc: "多图拼接",
     key: "1",
-    bgColor: "#f0f4ff",
-    iconBg: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    gradient: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+    shadow: "0 8rpx 16rpx rgba(99, 102, 241, 0.3)",
     path: "puzzle",
   },
   {
     label: "切分九宫格",
     iconName: "apps",
-    desc: "一张图片分割多张",
+    desc: "一键切图",
     key: "2",
-    bgColor: "#e8faf5",
-    iconBg: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+    gradient: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
+    shadow: "0 8rpx 16rpx rgba(16, 185, 129, 0.3)",
     path: "sudoku",
   },
   {
     label: "智能证件照",
     iconName: "user",
-    desc: "一键生成证件照",
+    desc: "最美证件照",
     key: "3",
-    bgColor: "#fff5eb",
-    iconBg: "linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)",
+    gradient: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)",
+    shadow: "0 8rpx 16rpx rgba(245, 158, 11, 0.3)",
   },
   {
     label: "智能消除",
     iconName: "close",
-    desc: "涂抹消除不需要的元素",
+    desc: "消除路人",
     key: "4",
-    bgColor: "#fff0f5",
-    iconBg: "linear-gradient(135deg, #ee0979 0%, #ff6a00 100%)",
+    gradient: "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
+    shadow: "0 8rpx 16rpx rgba(236, 72, 153, 0.3)",
   },
 ];
 
@@ -136,49 +136,67 @@ const handleClick = (item: any) => {
 };
 </script>
 <template>
-  <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
+  <div class="tool-container" :style="{ paddingTop: `${statusBarHeight}px` }">
     <div
-      class="flex items-center px-[32rpx] text-[#fff] text-[36rpx] font-bold"
+      class="flex items-center px-[32rpx] text-[#1e293b] text-[40rpx] font-bold z-10 relative"
       :style="{ height: `${navBarHeight}px` }"
     >
-      图片工具箱
+      <div class="flex items-center"><span class="mr-2">🛠️</span> 创意工坊</div>
     </div>
-    <div
-      class="absolute inset-0 flex flex-col gap-[20rpx] p-[24rpx] pt-[32rpx] bg-[#f5f7fa] rounded-t-[40rpx]"
-      :style="{ top: `${statusBarHeight + navBarHeight + 60}px` }"
-    >
-      <div class="flex items-center mb-[8rpx] pl-[8rpx]">
-        <span class="text-[32rpx] mr-[12rpx]">🛠️</span>
-        <span class="text-[30rpx] font-bold text-[#333]">常用工具</span>
+
+    <div class="p-[32rpx] pb-[120rpx] relative z-10">
+      <div class="text-[28rpx] text-[#64748b] mb-[40rpx] font-light">
+        释放你的图片创造力
       </div>
 
-      <div
-        v-for="item in tools"
-        :key="item.key"
-        class="flex items-center p-[24rpx] rounded-[20rpx]"
-        :style="{ background: item.bgColor }"
-        @click="handleClick(item)"
-      >
+      <div class="grid grid-cols-2 gap-[24rpx]">
         <div
-          class="w-[80rpx] h-[80rpx] rounded-[18rpx] flex items-center justify-center mr-[24rpx]"
-          :style="{ background: item.iconBg }"
+          v-for="item in tools"
+          :key="item.key"
+          class="aspect-[1/1.2] rounded-[32rpx] p-[32rpx] flex flex-col justify-between relative overflow-hidden transition-all active:scale-95 shadow-sm bg-white"
+          @click="handleClick(item)"
         >
-          <wd-icon :name="item.iconName" size="22px" color="#fff"></wd-icon>
+          <div
+            class="w-[88rpx] h-[88rpx] rounded-[24rpx] flex items-center justify-center text-white shadow-md mb-[24rpx]"
+            :style="{ background: item.gradient, boxShadow: item.shadow }"
+          >
+            <wd-icon :name="item.iconName" size="28px"></wd-icon>
+          </div>
+
+          <div>
+            <div class="text-[32rpx] font-bold text-[#1e293b] mb-[8rpx]">
+              {{ item.label }}
+            </div>
+            <div class="text-[24rpx] text-[#94a3b8]">{{ item.desc }}</div>
+          </div>
+
+          <!-- Decorative Circle -->
+          <div
+            class="absolute -right-[40rpx] -bottom-[40rpx] w-[160rpx] h-[160rpx] rounded-full opacity-10"
+            :style="{ background: item.gradient }"
+          ></div>
         </div>
-        <div class="flex-1 overflow-hidden">
-          <div class="text-[30rpx] font-bold text-[#333] mb-[6rpx]">{{ item.label }}</div>
-          <div class="text-[24rpx] text-[#999] truncate">{{ item.desc }}</div>
-        </div>
-        <wd-icon name="arrow-right" size="16px" color="#ccc"></wd-icon>
       </div>
     </div>
+
+    <!-- Background Gradients -->
+    <div
+      class="absolute top-0 right-0 w-[600rpx] h-[600rpx] bg-[#f0f9ff] rounded-full blur-[100rpx] -z-10 opacity-60"
+    ></div>
+    <div
+      class="absolute bottom-0 left-0 w-[500rpx] h-[500rpx] bg-[#f5f3ff] rounded-full blur-[80rpx] -z-10 opacity-60"
+    ></div>
   </div>
 </template>
 <style lang="scss" scoped>
-.home-container {
+.tool-container {
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  background: #f8fafc;
   position: relative;
+}
+
+.shadow-sm {
+  box-shadow: 0 4rpx 20rpx rgba(148, 163, 184, 0.1);
 }
 </style>

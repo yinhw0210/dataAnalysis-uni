@@ -27,7 +27,7 @@ const navBarHeight = computed(() => {
 });
 
 const contentHeight = computed(() => {
-  return `calc(100vh - ${navBarHeight.value}px - ${statusBarHeight.value}px - 100rpx)`;
+  return `calc(100vh - ${navBarHeight.value}px - ${statusBarHeight.value}px)`;
 });
 
 const { data, run } = useRequest(
@@ -62,6 +62,13 @@ const goToDoubao = () => {
   });
 };
 
+const onPaste = async () => {
+  const pasteData = await uni.getClipboardData();
+  if (pasteData.data) {
+    value.value = pasteData.data;
+  }
+};
+
 onShareAppMessage(() => {
   return {
     title: "免费去水印，多平台短视频、图片一键去水印。",
@@ -79,107 +86,179 @@ onShareTimeline(() => {
 <template>
   <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
     <div
-      class="flex items-center px-[32rpx] text-[#fff] text-[36rpx] font-bold"
+      class="flex items-center px-[32rpx] text-[#fff] text-[36rpx] font-bold z-10 relative"
       :style="{ height: `${navBarHeight}px` }"
     >
-      去水印工具
+      <div class="flex items-center"><span class="mr-2">✨</span> 去水印</div>
     </div>
+
     <div
-      class="flex flex-col px-[24rpx] overflow-y-auto"
+      class="flex flex-col px-[32rpx] overflow-y-auto relative z-10"
       :style="{ height: contentHeight }"
     >
-      <!-- 豆包去水印主功能卡片 -->
-      <div
-        class="relative rounded-[24rpx] overflow-hidden mb-[24rpx]"
-        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-        @click="goToDoubao"
-      >
-        <div class="flex items-center p-[32rpx]">
+      <!-- Hero Text -->
+      <div class="mt-[40rpx] mb-[60rpx] text-center text-white">
+        <h1 class="text-[48rpx] font-bold mb-[16rpx] tracking-wide">
+          一键去除水印
+        </h1>
+        <p class="text-[28rpx] opacity-80 font-light">
+          支持抖音 / 快手 / 小红书 / 微博等全平台
+        </p>
+      </div>
+
+      <!-- Main Input Card -->
+      <div class="glass-card p-[32rpx] mb-[32rpx] animate-fade-in-up">
+        <div class="relative w-full mb-[32rpx]">
+          <wd-input
+            type="text"
+            custom-class="premium-input"
+            :no-border="true"
+            v-model="value"
+            placeholder="粘贴视频或图片链接..."
+          />
           <div
-            class="w-[88rpx] h-[88rpx] rounded-[20rpx] flex items-center justify-center mr-[24rpx]"
-            style="background: rgba(255, 255, 255, 0.2)"
+            class="absolute right-[16rpx] top-1/2 -translate-y-1/2 text-[#6366f1] text-[26rpx] font-medium py-[8rpx] px-[16rpx] bg-[#eff6ff] rounded-[12rpx]"
+            @click="onPaste"
+            v-if="!value"
           >
-            <image
-              src="https://cdn.simpleicons.org/bytedance/FFFFFF"
-              class="w-[48rpx] h-[48rpx]"
-              mode="aspectFit"
-            />
+            粘贴
           </div>
-          <div class="flex-1">
-            <div class="text-[32rpx] font-bold text-white mb-[8rpx]">豆包AI去水印</div>
-            <div class="text-[24rpx]" style="color: rgba(255,255,255,0.8)">一键提取豆包AI生成图片的无水印原图</div>
-          </div>
-          <wd-icon name="arrow-right" size="20px" color="rgba(255,255,255,0.8)"></wd-icon>
         </div>
-        <div
-          class="absolute top-0 right-[32rpx] text-white text-[22rpx] px-[20rpx] py-[8rpx]"
-          style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%); border-radius: 0 0 12rpx 12rpx"
-        >
-          推荐
-        </div>
-      </div>
-
-      <!-- 分类标签 -->
-      <div class="flex items-center mb-[20rpx] pl-[8rpx]">
-        <span class="text-[32rpx] mr-[12rpx]">🎬</span>
-        <span class="text-[30rpx] font-bold text-[#333]">短视频去水印</span>
-      </div>
-
-      <!-- 短视频去水印区域 -->
-      <div class="bg-white rounded-[24rpx] p-[32rpx] mb-[24rpx]">
-        <div class="flex justify-center mb-[16rpx]">
-          <image src="https://cdn.simpleicons.org/xiaohongshu/white" class="w-[44rpx] h-[44rpx] rounded-[10rpx] mx-[10rpx] p-[6rpx]" style="background: #fe2c55" mode="aspectFit" />
-          <image src="https://cdn.simpleicons.org/sinaweibo/E6162D" class="w-[44rpx] h-[44rpx] rounded-[10rpx] mx-[10rpx] p-[6rpx] border border-[#eee]" style="background: #fff" mode="aspectFit" />
-          <image src="https://cdn.simpleicons.org/tiktok/white" class="w-[44rpx] h-[44rpx] rounded-[10rpx] mx-[10rpx] p-[6rpx]" style="background: #000" mode="aspectFit" />
-          <image src="https://cdn.simpleicons.org/kuaishou/white" class="w-[44rpx] h-[44rpx] rounded-[10rpx] mx-[10rpx] p-[6rpx]" style="background: #fe4905" mode="aspectFit" />
-        </div>
-        <div class="text-center text-[24rpx] text-[#999] mb-[28rpx]">支持抖音、快手、小红书、微博等平台</div>
-
-        <wd-input
-          type="text"
-          custom-class="input-box"
-          :no-border="true"
-          v-model="value"
-          placeholder="请粘贴视频/图片分享链接"
-        />
 
         <div
-          class="w-full h-[88rpx] rounded-[44rpx] flex items-center justify-center mt-[24rpx]"
-          style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-          :style="{ opacity: value ? 1 : 0.5 }"
+          class="w-full h-[96rpx] rounded-[24rpx] flex items-center justify-center shadow-lg transition-all active:scale-95"
+          style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)"
+          :style="{ opacity: value ? 1 : 0.8 }"
           @click="onHandleAnalyze"
         >
-          <span class="text-white text-[30rpx] font-medium">开始解析</span>
+          <wd-icon
+            name="magic"
+            size="20px"
+            color="#fff"
+            class="mr-[12rpx]"
+          ></wd-icon>
+          <span class="text-white text-[32rpx] font-bold">立即解析</span>
         </div>
+
+        <!-- Supported Platforms Icons -->
+        <div class="flex justify-center items-center mt-[32rpx] gap-[24rpx]">
+          <image
+            src="https://cdn.simpleicons.org/xiaohongshu/ff2442"
+            class="w-[52rpx] h-[52rpx] opacity-80 grayscale-[30%]"
+            mode="aspectFit"
+          />
+          <image
+            src="https://cdn.simpleicons.org/sinaweibo/E6162D"
+            class="w-[52rpx] h-[52rpx] opacity-80 grayscale-[30%]"
+            mode="aspectFit"
+          />
+          <image
+            src="https://cdn.simpleicons.org/tiktok/000000"
+            class="w-[42rpx] h-[42rpx] opacity-80 grayscale-[30%]"
+            mode="aspectFit"
+          />
+          <image
+            src="https://cdn.simpleicons.org/kuaishou/fe4905"
+            class="w-[42rpx] h-[42rpx] opacity-80 grayscale-[30%]"
+            mode="aspectFit"
+          />
+        </div>
+      </div>
+
+      <!-- Doubao Entry -->
+      <div
+        class="glass-card flex items-center p-[24rpx] mb-[32rpx] active:scale-98 transition-all"
+        @click="goToDoubao"
+      >
+        <div
+          class="w-[80rpx] h-[80rpx] rounded-[20rpx] flex items-center justify-center mr-[24rpx]"
+          style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)"
+        >
+          <image
+            src="https://cdn.simpleicons.org/bytedance/FFFFFF"
+            class="w-[40rpx] h-[40rpx]"
+            mode="aspectFit"
+          />
+        </div>
+        <div class="flex-1">
+          <div class="text-[30rpx] font-bold text-[#1e293b] mb-[4rpx]">
+            豆包 AI 去水印
+          </div>
+          <div class="text-[24rpx] text-[#64748b]">
+            提取 AI生成图片无水印原图
+          </div>
+        </div>
+        <wd-icon name="arrow-right" size="18px" color="#94a3b8"></wd-icon>
       </div>
 
       <!-- 解析结果 -->
-      <div v-if="data" class="bg-white rounded-[24rpx] p-[24rpx]">
+      <div v-if="data" class="glass-card p-[24rpx] animate-fade-in-up">
         <AnalyzeResult :data="data" />
       </div>
     </div>
+
+    <!-- Background Elements -->
+    <div
+      class="absolute top-0 left-0 right-0 h-[60vh] bg-gradient-to-b from-[#6366f1] via-[#8b5cf6] to-transparent pointer-events-none opacity-20"
+    ></div>
+    <div
+      class="absolute -top-[100rpx] -right-[100rpx] w-[500rpx] h-[500rpx] rounded-full bg-[#ec4899] blur-[120rpx] opacity-20 pointer-events-none"
+    ></div>
+    <div
+      class="absolute top-[200rpx] -left-[100rpx] w-[400rpx] h-[400rpx] rounded-full bg-[#3b82f6] blur-[100rpx] opacity-20 pointer-events-none"
+    ></div>
   </div>
 </template>
 <style lang="scss" scoped>
 .home-container {
   width: 100%;
   height: 100vh;
-  background: linear-gradient(180deg, #667eea 0%, #764ba2 40%, #f5f7fa 40%);
+  background: #f8fafc;
+  position: relative;
+  overflow: hidden;
 }
 
-:deep(.input-box) {
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20rpx);
+  border: 1px solid rgba(255, 255, 255, 1);
+  border-radius: 32rpx;
+  box-shadow: 0 8rpx 32rpx rgba(148, 163, 184, 0.1);
+}
+
+:deep(.premium-input) {
   width: 100%;
-  height: 88rpx;
-  border-radius: 16rpx;
-  border: 2rpx solid #e8f0fe;
-  background: #f8fafc;
+  height: 100rpx;
+  background: #f1f5f9;
+  border-radius: 20rpx;
   padding: 0 24rpx;
+  font-size: 30rpx;
+  color: #1e293b;
+  transition: all 0.3s ease;
+
+  &.wd-input__inner:focus {
+    background: #fff;
+    box-shadow: 0 0 0 4rpx rgba(99, 102, 241, 0.2);
+  }
+
   .wd-input__body {
     height: 100%;
-    .wd-input__value {
-      height: 100%;
-      font-size: 28rpx;
-    }
+    background: transparent;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
