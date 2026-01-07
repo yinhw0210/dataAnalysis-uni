@@ -1,6 +1,6 @@
 # DataAnalysis-Uni 多功能媒体工具箱
 
-![Banner](https://free.picui.cn/free/2025/04/20/6804ab7e87ee1.png)
+<!-- Banner placeholder - add your own banner image here -->
 
 ## 项目介绍
 

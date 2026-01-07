@@ -58,28 +58,6 @@ export namespace UserType {
      */
     total: number
   }
-
-  export interface TrackEvent {
-    /**
-     * 用户id
-     */
-    user_id: number
-
-    /**
-     * 来源
-     */
-    source_platform: SourcePlatformEnum
-
-    /**
-     * 追踪类型
-     */
-    event_type: TrackTypeEnum
-
-    /**
-     * 额外参数
-     */
-    event_params?: Record<string, any>
-  }
 }
 
 declare global {

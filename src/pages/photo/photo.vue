@@ -67,7 +67,7 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
             @click="handleClick('1')"
           >
             <img
-              src="https://free.picui.cn/free/2025/06/04/683fc00022f41.png"
+              src="https://cdn.picui.cn/vip/2026/01/07/695dc2b11e146.png"
               class="h-[300rpx] w-[212rpx]"
               alt=""
             />
@@ -77,31 +77,37 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
             </div>
           </div>
           <div
-            class="shadow-md bg-white rounded-[24rpx]"
-            :style="{
-              backgroundImage: `url('https://free.picui.cn/free/2025/06/06/68424b2e99868.png')`,
-              backgroundSize: '100%',
-              backgroundPosition: 'center',
-            }"
+            class="shadow-md bg-white rounded-[24rpx] flex flex-col items-center justify-center"
             @click="
               () => {
                 onHandleCutout(DisposeTypeEnum.CUTOUT);
               }
             "
-          ></div>
+          >
+            <div
+              class="w-[80rpx] h-[80rpx] rounded-[20rpx] flex items-center justify-center mb-[8rpx]"
+              style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+            >
+              <wd-icon name="cutting" size="40rpx" color="#fff"></wd-icon>
+            </div>
+            <div class="text-[26rpx] text-[#333] font-medium">智能抠图</div>
+          </div>
           <div
-            class="shadow-md bg-white rounded-[24rpx]"
-            :style="{
-              backgroundImage: `url('https://free.picui.cn/free/2025/06/12/684a9a2d6f503.png')`,
-              backgroundSize: '100%',
-              backgroundPosition: 'center',
-            }"
+            class="shadow-md bg-white rounded-[24rpx] flex flex-col items-center justify-center"
             @click="
               () => {
                 onHandleCutout(DisposeTypeEnum.IMAGE_SIZE_MODIFY);
               }
             "
-          ></div>
+          >
+            <div
+              class="w-[80rpx] h-[80rpx] rounded-[20rpx] flex items-center justify-center mb-[8rpx]"
+              style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%)"
+            >
+              <wd-icon name="photo-change" size="40rpx" color="#fff"></wd-icon>
+            </div>
+            <div class="text-[26rpx] text-[#333] font-medium">修改尺寸</div>
+          </div>
         </div>
         <div
           class="flex-1 flex flex-col px-[16rpx] py-[24rpx] overflow-hidden bg-white rounded-t-[24rpx]"
@@ -135,7 +141,7 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
 .home-container {
   width: 100%;
   height: 100%;
-  background: url(https://free.picui.cn/free/2025/05/27/68352d8cdbf3a.png)
+  background: url(https://cdn.picui.cn/vip/2026/01/07/695dc49a2c874.png)
     no-repeat;
   background-size: contain;
 }

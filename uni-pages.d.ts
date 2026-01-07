@@ -11,6 +11,7 @@ interface NavigateToOptions {
        "/pages/photo/photo" |
        "/pages/home/index" |
        "/pages/generate/index" |
+       "/pages/doubao/index" |
        "/pages/issue/index" |
        "/pages/puzzle/puzzle" |
        "/pages/spread/index" |

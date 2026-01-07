@@ -10,49 +10,50 @@
 import { computed } from "vue";
 import { usePuzzleStore } from "@/store/modules/puzzle";
 import { nanoid } from "nanoid/non-secure";
-const puzzleStore = usePuzzleStore();
 import { useSudokuStore } from "@/store/modules/sudoku";
-const sudokuStore = useSudokuStore();
 import { useRemoveStore } from "@/store/modules/remove";
+
+const puzzleStore = usePuzzleStore();
+const sudokuStore = useSudokuStore();
 const removeStore = useRemoveStore();
-import { useToast } from "wot-design-uni";
-import { trackEvent } from "@/utils/user";
-import { SourcePlatformEnum, TrackTypeEnum } from "@/enum";
 
-const toast = useToast();
-
-const info = [
+const tools = [
   {
     label: "排版拼图",
-    icon: "https://free.picui.cn/free/2025/05/23/683009e0409b9.png",
+    iconName: "image",
     desc: "多张图片一键合成任意模板",
     key: "1",
-    iconColor: "#72b8f9",
+    bgColor: "#f0f4ff",
+    iconBg: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     path: "puzzle",
   },
   {
     label: "切分九宫格",
-    icon: "https://free.picui.cn/free/2025/05/23/683009e03ea99.png",
+    iconName: "apps",
     desc: "一张图片分割多张",
     key: "2",
-    iconColor: "#7fd6fb",
+    bgColor: "#e8faf5",
+    iconBg: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
     path: "sudoku",
   },
   {
     label: "智能证件照",
-    icon: "https://free.picui.cn/free/2025/05/23/683009e039ee6.png",
+    iconName: "user",
     desc: "一键生成证件照",
     key: "3",
-    iconColor: "#8378f7",
+    bgColor: "#fff5eb",
+    iconBg: "linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)",
   },
   {
     label: "智能消除",
-    icon: "https://free.picui.cn/free/2025/05/23/683009e03b375.png",
-    desc: "涂抹消除，一键去除图片中不需要的元素",
+    iconName: "close",
+    desc: "涂抹消除不需要的元素",
     key: "4",
-    iconColor: "#396be5",
+    bgColor: "#fff0f5",
+    iconBg: "linear-gradient(135deg, #ee0979 0%, #ff6a00 100%)",
   },
 ];
+
 const statusBarHeight = computed(() => {
   return uni.getSystemInfoSync().statusBarHeight ?? 0;
 });
@@ -66,12 +67,6 @@ const navBarHeight = computed(() => {
 
 const handleClick = (item: any) => {
   if (item.key === "3") {
-    trackEvent({
-      user_id: 1,
-      source_platform: SourcePlatformEnum.MINI_PROGRAM,
-      event_type: TrackTypeEnum.ID_CARD,
-      event_params: {},
-    });
     uni.navigateTo({ url: `/pages/photo/photo` });
     return;
   }
@@ -81,15 +76,15 @@ const handleClick = (item: any) => {
     mediaType: ["image"],
     sourceType: ["album"],
     success: async (res) => {
-      const mediaInfoList = [];
-      const promiseList = res.tempFiles.map((item) => {
+      const mediaInfoList: any[] = [];
+      const promiseList = res.tempFiles.map((file) => {
         return new Promise((resolve) => {
           uni.getImageInfo({
-            src: item.tempFilePath,
+            src: file.tempFilePath,
             success: (imageRes) => {
               resolve({
                 id: nanoid(),
-                url: item.tempFilePath,
+                url: file.tempFilePath,
                 width: imageRes.width,
                 height: imageRes.height,
                 rotate: 0,
@@ -99,11 +94,10 @@ const handleClick = (item: any) => {
                 scale: 1,
               });
             },
-            fail: (err) => {
-              console.error("获取图片信息失败:", err);
+            fail: () => {
               resolve({
                 id: nanoid(),
-                url: item.tempFilePath,
+                url: file.tempFilePath,
                 width: 0,
                 height: 0,
                 rotate: 0,
@@ -119,43 +113,18 @@ const handleClick = (item: any) => {
       try {
         mediaInfoList.push(...(await Promise.all(promiseList)));
         if (item.key === "1" && mediaInfoList.length === 1) {
-          uni.showToast({
-            title: "请选择多张图片",
-            icon: "none",
-          });
+          uni.showToast({ title: "请选择多张图片", icon: "none" });
           return;
         }
-        // 如果需要进行页面跳转，可以在这里进行
-        // 但要确保跳转的 URL 是合法的
-        // 其中 "item.path" 需要替换为实际的页面路径
         if (item.key === "1") {
-          // 确保图像信息已获取完毕后再进行后续操作
-          trackEvent({
-            user_id: 1,
-            source_platform: SourcePlatformEnum.MINI_PROGRAM,
-            event_type: TrackTypeEnum.PUZZLE,
-            event_params: {},
-          });
           puzzleStore.setImageList(mediaInfoList);
           uni.navigateTo({ url: `/pages/puzzle/${item.path}` });
         }
         if (item.key === "2") {
-          trackEvent({
-            user_id: 1,
-            source_platform: SourcePlatformEnum.MINI_PROGRAM,
-            event_type: TrackTypeEnum.CROP,
-            event_params: {},
-          });
           sudokuStore.setSudokuInfo(mediaInfoList[0]);
           uni.navigateTo({ url: `/pages/sudoku/${item.path}` });
         }
         if (item.key === "4") {
-          trackEvent({
-            user_id: 1,
-            source_platform: SourcePlatformEnum.MINI_PROGRAM,
-            event_type: TrackTypeEnum.SMART_REMOVE,
-            event_params: {},
-          });
           removeStore.setImageInfo(mediaInfoList[0]);
           uni.navigateTo({ url: `/pages/remove/index` });
         }
@@ -163,94 +132,53 @@ const handleClick = (item: any) => {
         console.error("处理图片信息时出错:", error);
       }
     },
-    fail: (err) => {
-      console.error("选择媒体失败:", err);
-    },
   });
 };
 </script>
 <template>
   <div class="home-container" :style="{ paddingTop: `${statusBarHeight}px` }">
     <div
-      class="flex items-center px-[16rpx] text-[#fff] text-[32rpx] font-bold sticky top-0 z-10"
-      :style="{
-        height: `${navBarHeight}px`,
-        top: `${statusBarHeight}px`,
-      }"
-    ></div>
-    <div
-      class="absolute inset-0 top-[380rpx] flex flex-col gap-[40rpx] p-[32rpx] pt-[48rpx] items-center bg-[#fff] rounded-[28rpx_28rpx_0_0]"
+      class="flex items-center px-[32rpx] text-[#fff] text-[36rpx] font-bold"
+      :style="{ height: `${navBarHeight}px` }"
     >
+      图片工具箱
+    </div>
+    <div
+      class="absolute inset-0 flex flex-col gap-[20rpx] p-[24rpx] pt-[32rpx] bg-[#f5f7fa] rounded-t-[40rpx]"
+      :style="{ top: `${statusBarHeight + navBarHeight + 60}px` }"
+    >
+      <div class="flex items-center mb-[8rpx] pl-[8rpx]">
+        <span class="text-[32rpx] mr-[12rpx]">🛠️</span>
+        <span class="text-[30rpx] font-bold text-[#333]">常用工具</span>
+      </div>
+
       <div
-        class="item"
-        :data-key="item.key"
-        v-for="item in info"
+        v-for="item in tools"
         :key="item.key"
+        class="flex items-center p-[24rpx] rounded-[20rpx]"
+        :style="{ background: item.bgColor }"
         @click="handleClick(item)"
       >
-        <div class="item_icon">
-          <image :src="item.icon" alt="" />
+        <div
+          class="w-[80rpx] h-[80rpx] rounded-[18rpx] flex items-center justify-center mr-[24rpx]"
+          :style="{ background: item.iconBg }"
+        >
+          <wd-icon :name="item.iconName" size="22px" color="#fff"></wd-icon>
         </div>
-        <div class="h-full flex flex-col justify-between py-[6rpx]">
-          <div class="text-[24rpx] font-bold">{{ item.label }}</div>
-          <div class="text-[20rpx] text-[#999]">{{ item.desc }}</div>
+        <div class="flex-1 overflow-hidden">
+          <div class="text-[30rpx] font-bold text-[#333] mb-[6rpx]">{{ item.label }}</div>
+          <div class="text-[24rpx] text-[#999] truncate">{{ item.desc }}</div>
         </div>
-        <div class="absolute right-[24rpx] bottom-[50%] translate-y-[50%]">
-          <wd-icon
-            name="arrow-right"
-            size="22px"
-            :color="item.iconColor"
-          ></wd-icon>
-        </div>
+        <wd-icon name="arrow-right" size="16px" color="#ccc"></wd-icon>
       </div>
     </div>
-    <wd-toast />
   </div>
 </template>
 <style lang="scss" scoped>
 .home-container {
   width: 100%;
-  height: 100%;
-  background: url(https://free.picui.cn/free/2025/05/19/682af2cb250dd.png)
-    no-repeat top center;
-  background-size: contain;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
-  .item {
-    height: 128rpx;
-    width: 100%;
-    border-radius: 24rpx;
-    padding: 24rpx;
-    display: flex;
-    align-items: center;
-    gap: 24rpx;
-    position: relative;
-
-    &[data-key="1"] {
-      background: #e6f3fe;
-    }
-    &[data-key="2"] {
-      background: #e7f9fb;
-    }
-    &[data-key="3"] {
-      background: #edebfd;
-    }
-    &[data-key="4"] {
-      background: #e5edfd;
-    }
-
-    .item_icon {
-      background: #fff;
-      border-radius: 12rpx;
-      width: 80rpx;
-      height: 80rpx;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      image {
-        width: 50rpx;
-        height: 50rpx;
-      }
-    }
-  }
 }
 </style>

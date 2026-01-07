@@ -1,6 +1,14 @@
 {
   "pages": [
     {
+      "path": "pages/home/index",
+      "type": "home",
+      "layout": "main",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/tool/index",
       "type": "home",
       "layout": "main",
@@ -37,14 +45,6 @@
       }
     },
     {
-      "path": "pages/home/index",
-      "type": "home",
-      "layout": "main",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/generate/index",
       "type": "home",
       "style": {
@@ -52,8 +52,18 @@
       }
     },
     {
+      "path": "pages/doubao/index",
+      "type": "home",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/issue/index",
-      "type": "page"
+      "type": "page",
+      "style": {
+        "navigationStyle": "custom"
+      }
     },
     {
       "path": "pages/puzzle/puzzle",

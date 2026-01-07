@@ -982,10 +982,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
         class="absolute top-[-80rpx] left-[20rpx] h-[50rpx] px-[16rpx] flex gap-[6rpx] items-center justify-center rounded-[25rpx] bg-[#fff]"
         @click="onHandleAdvancedEditExpand"
       >
-        <image
-          src="https://free.picui.cn/free/2025/05/21/682db2dceb5d6.png"
-          class="size-[24rpx]"
-        />
+        <wd-icon name="setting" size="24rpx" color="#333"></wd-icon>
         <div class="text-[24rpx]">高级编辑</div>
       </div>
       <div
@@ -1104,13 +1101,11 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
             <div
               class="size-full flex flex-col items-center justify-center gap-[6rpx]"
             >
-              <image
-                :src="item.icon"
-                class="size-[48rpx]"
-                :style="{
-                  transform: `scale(${item.scale ?? 1})`,
-                }"
-              />
+              <wd-icon
+                :name="item.iconName"
+                size="48rpx"
+                color="#666"
+              ></wd-icon>
               <div class="text-[24rpx]">{{ item.label }}</div>
             </div>
           </div>
@@ -1176,7 +1171,7 @@ const getImageMode = (item: IImageInfo, info: [string, StandardPuzzleNum]) => {
             <div
               class="size-full flex flex-col items-center justify-center gap-[6rpx]"
             >
-              <image :src="item.icon" class="size-[48rpx]" />
+              <wd-icon :name="item.iconName" size="48rpx" color="#666"></wd-icon>
               <div class="text-[24rpx]">{{ item.label }}</div>
             </div>
           </div>

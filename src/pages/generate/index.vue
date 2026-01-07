@@ -20,11 +20,11 @@ const key = ref<string>("1");
 const current = ref<number>(0);
 
 const swiperList = ref<any[]>([
-  "https://free.picui.cn/free/2025/06/09/684678926e2d9.png",
-  "https://free.picui.cn/free/2025/06/09/684678929f09c.png",
-  "https://free.picui.cn/free/2025/06/09/68467893335e2.png",
-  "https://free.picui.cn/free/2025/06/09/68467892c85c3.png",
-  "https://free.picui.cn/free/2025/06/09/684678929bc4f.png",
+  "https://cdn.picui.cn/vip/2026/01/07/695dc148065bb.png",
+  "https://cdn.picui.cn/vip/2026/01/07/695dc1487f07c.png",
+  "https://cdn.picui.cn/vip/2026/01/07/695dc148650f2.png",
+  "https://cdn.picui.cn/vip/2026/01/07/695dc148313b5.png",
+  "https://cdn.picui.cn/vip/2026/01/07/695dc14807f00.png",
 ]);
 
 onLoad((options) => {

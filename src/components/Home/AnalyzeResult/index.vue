@@ -21,25 +21,24 @@ const renderType = computed(() => {
 });
 
 const onHandleDownload = (item: string) => {
-  uni.showLoading({
-    title: "初始化资源...",
-  });
+  uni.showLoading({ title: "下载中..." });
   uni.downloadFile({
     url: `https://www.solitude.top/download.php?url=${item}`,
     success: (res) => {
       uni.saveImageToPhotosAlbum({
         filePath: res.tempFilePath,
-        success: (res) => {
+        success: () => {
           uni.hideLoading();
+          toast.success("保存成功");
         },
-        fail: (err) => {
-          toast.show("不支持的下载类型，请复制链接到浏览器下载。")
+        fail: () => {
+          toast.show("不支持的下载类型，请复制链接到浏览器下载");
           uni.hideLoading();
         },
       });
     },
-    fail: (err) => {
-      toast.show("不支持的下载类型，请复制链接到浏览器下载。")
+    fail: () => {
+      toast.show("不支持的下载类型，请复制链接到浏览器下载");
       uni.hideLoading();
     },
   });
@@ -48,12 +47,22 @@ const onHandleDownload = (item: string) => {
 const onHandleCopyLink = (item: string) => {
   uni.setClipboardData({
     data: item,
+    success: () => {
+      toast.success("已复制");
+    },
+  });
+};
+
+const onPreviewImage = (current: string) => {
+  uni.previewImage({
+    current,
+    urls: props.data?.image_list || [],
   });
 };
 </script>
 <template>
   <template>
-    <div class="text-[32rpx] font-bold my-[20rpx] px-[28rpx]">
+    <div class="text-[28rpx] font-bold mb-[20rpx]" v-if="data.title">
       {{ data.title }}
     </div>
   </template>
@@ -61,66 +70,77 @@ const onHandleCopyLink = (item: string) => {
     <VideoPlayer :src="data?.video" :poster="data?.image_list[0]" />
   </template>
   <template v-else>
-    <div class="px-[28rpx] mb-[20rpx]" v-if="data?.live_list?.length > 1">
-      <wd-radio-group v-model="imageType" shape="button">
-        <wd-radio :value="ImageType.ORIGINAL">图片</wd-radio>
-        <wd-radio :value="ImageType.LIVE">live图</wd-radio>
-      </wd-radio-group>
+    <div class="flex mb-[20rpx]" v-if="data?.live_list?.length > 1">
+      <div
+        class="px-[24rpx] py-[12rpx] rounded-[20rpx] mr-[16rpx] text-[26rpx]"
+        :class="imageType === ImageType.ORIGINAL ? 'text-white' : 'text-[#666] bg-[#f5f7fa]'"
+        :style="imageType === ImageType.ORIGINAL ? 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : ''"
+        @click="imageType = ImageType.ORIGINAL"
+      >
+        图片
+      </div>
+      <div
+        class="px-[24rpx] py-[12rpx] rounded-[20rpx] text-[26rpx]"
+        :class="imageType === ImageType.LIVE ? 'text-white' : 'text-[#666] bg-[#f5f7fa]'"
+        :style="imageType === ImageType.LIVE ? 'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : ''"
+        @click="imageType = ImageType.LIVE"
+      >
+        Live图
+      </div>
     </div>
+
+    <!-- Live图列表 -->
     <div
-      class="grid-cols-2 justify-center justify-items-center gap-y-[20rpx]"
-      :style="{
-        display: imageType === ImageType.LIVE ? 'grid' : 'none',
-      }"
+      class="grid grid-cols-2 gap-[16rpx]"
+      v-if="imageType === ImageType.LIVE"
     >
       <div
-        class="flex flex-col rounded-[16rpx] shadow-lg"
+        class="bg-white rounded-[12rpx] overflow-hidden shadow-sm"
         v-for="item in data?.live_list"
         :key="item"
       >
-        <div class="size-full w-[320rpx] min-h-[320rpx] p-[4rpx] rounded-[16rpx]">
-          <VideoPlayer :src="item" height="320rpx" :controls="false" />
-        </div>
+        <VideoPlayer :src="item" height="240rpx" :controls="false" />
       </div>
     </div>
+
+    <!-- 图片列表 -->
     <div
-      class="none grid-cols-2 justify-center justify-items-center gap-y-[20rpx]"
-      :style="{
-        display: imageType === ImageType.ORIGINAL ? 'grid' : 'none',
-      }"
+      class="grid grid-cols-2 gap-[16rpx]"
+      v-if="imageType === ImageType.ORIGINAL"
     >
       <div
-        class="flex flex-col rounded-[16rpx] shadow-lg"
-        v-for="item in data?.image_list"
+        class="bg-white rounded-[12rpx] overflow-hidden shadow-sm"
+        v-for="(item, index) in data?.image_list"
         :key="item"
       >
-        <div class="size-full w-[320rpx] h-[320rpx] p-[4rpx] rounded-[16rpx]">
-          <image :src="item" class="size-full" mode="aspectFit" />
+        <div class="relative w-full h-[240rpx]" @click="onPreviewImage(item)">
+          <image :src="item" class="w-full h-full" mode="aspectFill" />
+          <div class="absolute top-[8rpx] left-[8rpx] w-[36rpx] h-[36rpx] rounded-full flex items-center justify-center text-white text-[22rpx]" style="background: rgba(0,0,0,0.5)">
+            {{ index + 1 }}
+          </div>
         </div>
-        <div class="h-[80rpx] flex justify-center items-center gap-[10rpx]">
+        <div class="flex p-[12rpx] gap-[8rpx]">
           <div
-            class="w-[130rpx] h-[56rpx] flex justify-center items-center bg-[#3250ff] text-[#fff] text-[24rpx] font-bold rounded-[10rpx]"
+            class="flex-1 h-[52rpx] rounded-[26rpx] flex items-center justify-center text-white text-[24rpx]"
+            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
             @click="onHandleDownload(item)"
           >
             下载
           </div>
           <div
-            class="w-[130rpx] h-[56rpx] flex justify-center items-center bg-[#3250ff] text-[#fff] text-[24rpx] font-bold rounded-[10rpx]"
+            class="flex-1 h-[52rpx] rounded-[26rpx] flex items-center justify-center text-[#667eea] text-[24rpx] bg-[#f0f4ff]"
             @click="onHandleCopyLink(item)"
           >
-            复制链接
+            复制
           </div>
         </div>
-        <!-- <div class="mb-[20rpx] flex justify-center items-center">
-          <div
-            class="w-[270rpx] h-[56rpx] flex justify-center items-center bg-[#3250ff] text-[#fff] text-[24rpx] font-bold rounded-[10rpx]"
-          >
-            下载live图
-          </div>
-        </div> -->
       </div>
     </div>
     <wd-toast />
   </template>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.shadow-sm {
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+</style>

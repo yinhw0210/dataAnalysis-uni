@@ -15,12 +15,12 @@ export const PUZZLE_ADVANCED_EDIT_OPTIONS_LIST = [
     {
         key: '1',
         label: '相框',
-        icon: 'https://free.picui.cn/free/2025/05/21/682db6d0efb8c.png'
+        iconName: 'image'
     },
     {
         key: '2',
         label: '文字',
-        icon: 'https://free.picui.cn/free/2025/05/21/682db6d104980.png'
+        iconName: 'edit'
     },
 ]
 export const PUZZLE_OPTIONS_LIST = [
@@ -28,50 +28,50 @@ export const PUZZLE_OPTIONS_LIST = [
         key: '1',
         label: '滤镜',
         hide: true,
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f17c5619.png'
+        iconName: 'filter'
     },
     {
         key: '2',
         label: '替换',
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f17909ef.png'
+        iconName: 'photo-change'
     },
     {
         key: '3',
         label: '编辑',
         scale: 0.88,
         hide: true,
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f17b056d.png'
+        iconName: 'edit'
     },
     {
         key: '4',
         label: '旋转90°',
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f1789c02.png'
+        iconName: 'refresh'
     },
     {
         key: '5',
         label: '水平翻转',
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f1a75aec.png'
+        iconName: 'swap'
     },
     {
         key: '6',
         label: '垂直翻转',
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f1a4bf29.png'
+        iconName: 'swap'
     },
     {
         key: '7',
         label: '透明度',
         scale: 0.88,
-        icon: 'https://free.picui.cn/free/2025/05/21/682d6f179a551.png'
+        iconName: 'view'
     },
     {
         key: '8',
         label: '放大',
-        icon: 'https://free.picui.cn/free/2025/05/21/682d9dd588c25.png'
+        iconName: 'add'
     },
     {
         key: '9',
         label: '缩小',
-        icon: 'https://free.picui.cn/free/2025/05/21/682d9dd59002b.png'
+        iconName: 'decrease'
     }
 ]
 
