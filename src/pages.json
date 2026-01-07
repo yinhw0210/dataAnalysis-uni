@@ -67,15 +67,18 @@
     },
     {
       "path": "pages/puzzle/puzzle",
-      "type": "page"
+      "type": "page",
+      "style": {}
     },
     {
       "path": "pages/spread/index",
-      "type": "page"
+      "type": "page",
+      "style": {}
     },
     {
       "path": "pages/sudoku/sudoku",
-      "type": "page"
+      "type": "page",
+      "style": {}
     },
     {
       "path": "pages/user/index",
