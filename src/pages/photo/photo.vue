@@ -77,36 +77,26 @@ const onHandleCutout = (type: DisposeTypeEnum) => {
             </div>
           </div>
           <div
-            class="shadow-md bg-white rounded-[24rpx] flex flex-col items-center justify-center"
+            class="shadow-md bg-white rounded-[24rpx] flex flex-col items-center justify-center active:bg-gray-50"
             @click="
               () => {
                 onHandleCutout(DisposeTypeEnum.CUTOUT);
               }
             "
           >
-            <div
-              class="w-[80rpx] h-[80rpx] rounded-[20rpx] flex items-center justify-center mb-[8rpx]"
-              style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-            >
-              <wd-icon name="cutting" size="40rpx" color="#fff"></wd-icon>
-            </div>
-            <div class="text-[26rpx] text-[#333] font-medium">智能抠图</div>
+            <span class="text-[64rpx] mb-[12rpx]">✂️</span>
+            <div class="text-[28rpx] text-[#333] font-bold">智能抠图</div>
           </div>
           <div
-            class="shadow-md bg-white rounded-[24rpx] flex flex-col items-center justify-center"
+            class="shadow-md bg-white rounded-[24rpx] flex flex-col items-center justify-center active:bg-gray-50"
             @click="
               () => {
                 onHandleCutout(DisposeTypeEnum.IMAGE_SIZE_MODIFY);
               }
             "
           >
-            <div
-              class="w-[80rpx] h-[80rpx] rounded-[20rpx] flex items-center justify-center mb-[8rpx]"
-              style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%)"
-            >
-              <wd-icon name="photo-change" size="40rpx" color="#fff"></wd-icon>
-            </div>
-            <div class="text-[26rpx] text-[#333] font-medium">修改尺寸</div>
+            <span class="text-[64rpx] mb-[12rpx]">📐</span>
+            <div class="text-[28rpx] text-[#333] font-bold">修改尺寸</div>
           </div>
         </div>
         <div

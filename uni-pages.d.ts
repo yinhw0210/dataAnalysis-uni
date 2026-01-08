@@ -12,6 +12,7 @@ interface NavigateToOptions {
        "/pages/home/index" |
        "/pages/generate/index" |
        "/pages/doubao/index" |
+       "/pages/egg-timer/index" |
        "/pages/issue/index" |
        "/pages/puzzle/puzzle" |
        "/pages/spread/index" |

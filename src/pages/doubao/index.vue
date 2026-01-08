@@ -7,6 +7,7 @@
 </route>
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { onShareAppMessage, onShareTimeline } from "@dcloudio/uni-app";
 import doubaoService, {
   type DoubaoExtractResult,
 } from "@/services/doubaoService";
@@ -126,6 +127,23 @@ const handlePaste = () => {
     },
   });
 };
+
+// 分享给好友
+onShareAppMessage(() => {
+  return {
+    title: "豆包AI去水印 - 一键提取无水印原图",
+    path: "/pages/doubao/index",
+    imageUrl: "https://cdn.picui.cn/vip/2026/01/07/695e00d950406.png",
+  };
+});
+
+// 分享到朋友圈
+onShareTimeline(() => {
+  return {
+    title: "豆包AI去水印 - 一键提取无水印原图",
+    imageUrl: "https://cdn.picui.cn/vip/2026/01/07/695e00d950406.png",
+  };
+});
 </script>
 <template>
   <div class="doubao-container" :style="{ paddingTop: `${statusBarHeight}px` }">

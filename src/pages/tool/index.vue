@@ -29,7 +29,7 @@ const tools = [
   },
   {
     label: "切分九宫格",
-    iconName: "apps",
+    iconName: "grid",
     desc: "一键切图",
     key: "2",
     gradient: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
@@ -52,6 +52,14 @@ const tools = [
     gradient: "linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)",
     shadow: "0 8rpx 16rpx rgba(236, 72, 153, 0.3)",
   },
+  {
+    label: "煮蛋计时器",
+    iconName: "time",
+    desc: "完美溏心蛋",
+    key: "5",
+    gradient: "linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%)",
+    shadow: "0 8rpx 16rpx rgba(255, 107, 53, 0.3)",
+  },
 ];
 
 const statusBarHeight = computed(() => {
@@ -68,6 +76,10 @@ const navBarHeight = computed(() => {
 const handleClick = (item: any) => {
   if (item.key === "3") {
     uni.navigateTo({ url: `/pages/photo/photo` });
+    return;
+  }
+  if (item.key === "5") {
+    uni.navigateTo({ url: `/pages/egg-timer/index` });
     return;
   }
   const count = item.key === "1" ? 16 : 1;
